@@ -36,12 +36,21 @@ uvx pre-commit install
 
 ### Install skills from this repo
 
+This is a **private repository**. Authenticate with the GitHub CLI before running install commands:
+
+```bash
+gh auth login
+```
+
 ```bash
 # Install all skills globally for Claude Code
 bunx skills add DimkaGorhover/agent-skills -g -a claude-code
 
 # List available skills without installing
 bunx skills add DimkaGorhover/agent-skills --list
+
+# SSH alternative (no GitHub CLI required)
+bunx skills add git@github.com:DimkaGorhover/agent-skills.git -g -a claude-code
 ```
 
 ## Skill File Structure

@@ -4,6 +4,20 @@ Personal collection of [agent skills](https://agentskills.io) for Claude Code an
 
 ## Install
 
+> **Private repository.** You must have access to `DimkaGorhover/agent-skills` on GitHub before installing.
+
+### Prerequisites
+
+The `skills` CLI authenticates against GitHub using the [GitHub CLI](https://cli.github.com).
+Log in once before running any install command:
+
+```bash
+gh auth login
+```
+
+If you prefer SSH, use `git@github.com:DimkaGorhover/agent-skills.git` as a drop-in replacement
+for the `DimkaGorhover/agent-skills` shorthand in all commands below.
+
 ### Via `bunx skills` (recommended)
 
 ```bash
@@ -21,6 +35,9 @@ bunx skills add DimkaGorhover/agent-skills --skill my-skill -g -a claude-code
 
 # List available skills without installing
 bunx skills add DimkaGorhover/agent-skills --list
+
+# SSH alternative (no GitHub CLI required)
+bunx skills add git@github.com:DimkaGorhover/agent-skills.git -g -a claude-code
 ```
 
 > `bunx` is Bun's package runner — equivalent to `npx` if you prefer:
