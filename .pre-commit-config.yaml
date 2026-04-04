@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=https://www.schemastore.org/pre-commit-config.json
+repos:
+  - repo: "https://github.com/pre-commit/pre-commit-hooks"
+    rev: "v6.0.0"
+    hooks:
+      - id: "check-added-large-files"
+        name: "Check Added Large Files"
+      - id: "check-symlinks"
+        name: "Check Symlinks"
+      - id: "trailing-whitespace"
+        name: "Trailing Whitespace Fixer"
+      - id: "end-of-file-fixer"
+        name: "End of File Fixer"
+      - id: "check-json"
+        name: "Check JSON"
+      - id: "check-yaml"
+        name: "Check YAML"
+
+  - repo: "https://github.com/gitleaks/gitleaks"
+    rev: "v8.30.0"
+    hooks:
+      - id: gitleaks
+        name: "Gitleaks"
+        args:
+          - "--verbose"
+          - "--redact"
+          - "--no-banner"
+          - "--max-target-megabytes=10"
+        stages:
+          - "pre-commit"
+
+  - repo: "https://github.com/adrienverge/yamllint"
+    rev: "v1.38.0"
+    hooks:
+      - id: "yamllint"
+        name: "YAML Lint"
+        stages:
+          - "pre-commit"
+
+  - repo: "local"
+    hooks:
+      - id: "mdformat"
+        name: "Format Markdown"
+        language: "system"
+        entry: >-
+          uvx
+          --with "mdformat-gfm"
+          --with "mdformat-frontmatter"
+          mdformat
+        types:
+          - "markdown"

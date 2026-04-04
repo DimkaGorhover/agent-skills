@@ -1,0 +1,39 @@
+{
+  "name": "dimkagorhover-agent-skills",
+  "owner": {
+    "name": "DimkaGorhover",
+    "url": "https://github.com/DimkaGorhover"
+  },
+  "metadata": {
+    "description": "Personal collection of Claude Code agent skills by DimkaGorhover",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "agent-skills",
+      "description": "Personal collection of agent skills — reusable instruction sets for Claude Code and other AI coding agents",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/ansible-naming-conventions",
+        "./skills/backstage-app-upgrade",
+        "./skills/changelog-generator",
+        "./skills/clickhouse-chproxy-users",
+        "./skills/conventional-commits",
+        "./skills/crane",
+        "./skills/doc-to-markdown",
+        "./skills/excel-parsing",
+        "./skills/gitlab-ci-gitleaks",
+        "./skills/golang-urfave-v2-to-v3",
+        "./skills/helm-chart-structuring",
+        "./skills/helm-chart-unittest",
+        "./skills/markdown-to-pdf",
+        "./skills/orchestrating-swarms",
+        "./skills/python",
+        "./skills/rich-terminal-output",
+        "./skills/taskfile",
+        "./skills/vector-remap-language"
+      ]
+    }
+  ]
+}
