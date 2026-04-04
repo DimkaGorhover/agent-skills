@@ -1,0 +1,30 @@
+# Taskfile checksums (go-task/task fingerprinting cache)
+.task/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+dist/
+build/
+
+# uv
+.python-version
+
+# Node / bunx
+node_modules/
+
+# macOS
+.DS_Store
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Secrets
+.env
+.env.*
+!.env.example
