@@ -33,7 +33,8 @@ version: '3'                     # Required — schema version
 vars:                            # Global variables
   NAME: value
   DYNAMIC:
-    sh: git rev-parse --short HEAD
+    sh: |-
+      git rev-parse --short HEAD
 
 env:                             # Global environment variables
   GO111MODULE: on
@@ -49,14 +50,15 @@ includes:                        # Import other Taskfiles
 tasks:
   task-name:
     desc: Human-readable description
-    summary: |
+    summary: |-
       Longer multi-line explanation
       shown with --summary flag
     aliases: [tn]
     dir: ./subdir
     deps: [other-task]
     cmds:
-      - echo "{{.NAME}}"
+      - |-
+        echo "{{.NAME}}"
     vars:
       LOCAL: value
     env:
@@ -69,8 +71,10 @@ tasks:
     status:
       - test -f bin/app
     preconditions:
-      - sh: test -f .env
-        msg: ".env file required"
+      - sh: |-
+          test -f .env
+        msg: >-
+          .env file required
     requires:
       vars:
         - name: ENV
@@ -110,7 +114,8 @@ vars:
   MAP:
     map: { A: 1, B: 2 }          # maps require `map:` subkey
   GIT_COMMIT:
-    sh: git log -n 1 --format=%h  # dynamic — runs shell command
+    sh: |-
+      git log -n 1 --format=%h  # dynamic — runs shell command
 ```
 
 ### Resolution Order (highest priority first)
@@ -171,8 +176,10 @@ tasks:
         - name: ENV
           enum: [dev, staging, prod]
     cmds:
-      - echo "Hello, {{.NAME}}"
-      - 'echo {{index .LIST 0}}'   # outputs "A"
+      - |-
+        echo "Hello, {{.NAME}}"
+      - |-
+        echo {{index .LIST 0}}   # outputs "A"
 ```
 
 ### Templating (Go templates + Sprig)
@@ -208,7 +215,8 @@ tasks:
     env:
       LOCAL_VAR: value   # overrides dotenv
     cmds:
-      - echo "$GLOBAL_VAR $LOCAL_VAR"
+      - |-
+        echo "$GLOBAL_VAR $LOCAL_VAR"
 ```
 
 **Note:** `dotenv` is NOT supported inside included Taskfiles. Explicit `env:` keys override dotenv values.
@@ -225,7 +233,8 @@ tasks:
 
   compile:
     cmds:
-      - go build ./...
+      - |-
+        go build ./...
 ```
 
 **Key rules:**
@@ -244,7 +253,8 @@ tasks:
     cmds:
       - defer: rm -f server.pid    # runs on exit (LIFO order)
       - defer: { task: cleanup }   # can defer task calls too
-      - ./start-server.sh
+      - |-
+        ./start-server.sh
 ```
 
 `{{.EXIT_CODE}}` is available in deferred commands.
@@ -256,7 +266,8 @@ tasks:
   deploy:
     prompt: 'Deploy to production? (y/n)'
     cmds:
-      - ./deploy.sh
+      - |-
+        ./deploy.sh
 ```
 
 Skip prompts with `task --yes deploy` or `CLI_ASSUME_YES`.
@@ -287,10 +298,13 @@ When sources haven't changed → prints `Task "build" is up to date`. Checksums 
 tasks:
   install-deps:
     cmds:
-      - npm install
+      - |-
+        npm install
     status:
-      - test -d node_modules
-      - test -f node_modules/.package-lock.json
+      - |-
+        test -d node_modules
+      - |-
+        test -f node_modules/.package-lock.json
 ```
 
 All status commands must return exit code 0 for task to be considered up-to-date.
@@ -307,19 +321,25 @@ All status commands must return exit code 0 for task to be considered up-to-date
 tasks:
   deploy:
     preconditions:
-      - sh: test -f .env
-        msg: "Missing .env file"
-      - sh: '[ -n "$AWS_PROFILE" ]'
-        msg: "AWS_PROFILE not set"
+      - sh: |-
+          test -f .env
+        msg: >-
+          Missing .env file
+      - sh: |-
+          [ -n "$AWS_PROFILE" ]
+        msg: >-
+          AWS_PROFILE not set
     if: '[ "$CI" = "true" ]'
     cmds:
       - ./deploy.sh
 
   build:
     cmds:
-      - cmd: echo "Production"
+      - cmd: |-
+          echo "Production"
         if: '{{eq .ENV "prod"}}'
-      - cmd: echo "Development"
+      - cmd: |-
+          echo "Development"
         if: '{{ne .ENV "prod"}}'
 ```
 
@@ -383,7 +403,8 @@ tasks:
   lint:
     cmds:
       - for: ['./pkg', './cmd', './internal']
-        cmd: golangci-lint run {{.ITEM}}/...
+        cmd: |-
+          golangci-lint run {{.ITEM}}/...
 ```
 
 ### Loop with `as:` (rename ITEM)
@@ -394,7 +415,8 @@ tasks:
     cmds:
       - for: [api, web, worker]
         as: SERVICE
-        cmd: docker build -t {{.SERVICE}} ./{{.SERVICE}}
+        cmd: |-
+          docker build -t {{.SERVICE}} ./{{.SERVICE}}
 ```
 
 ### Loop Over Variable
@@ -434,7 +456,8 @@ tasks:
     cmds:
       - for:
           var: GOFILES
-        cmd: gofmt -w {{.ITEM}}
+        cmd: |-
+          gofmt -w {{.ITEM}}
 ```
 
 ### Loop with `if`
@@ -460,7 +483,8 @@ tasks:
   install-linux:
     platforms: [linux/amd64]     # OS/arch combo
     cmds:
-      - apt-get install foo
+      - |-
+        apt-get install foo
 
   build:
     cmds:
@@ -485,8 +509,10 @@ tasks:
     set: [errexit, nounset, pipefail]   # task-level override
     shopt: [globstar]
     cmds:
-      - echo "$REQUIRED_VAR"
-      - echo **/*.go
+      - |-
+        echo "$REQUIRED_VAR"
+      - |-
+        echo **/*.go
 ```
 
 Available `set:` values: `errexit`, `nounset`, `pipefail`, `xtrace`, `allexport`, `noglob`, `noclobber`.
@@ -504,7 +530,8 @@ tasks:
   server:
     prefix: srv     # custom prefix for 'prefixed' mode
     cmds:
-      - ./start-server.sh
+      - |-
+        ./start-server.sh
 ```
 
 ### Group Mode (CI-friendly)
@@ -530,7 +557,8 @@ tasks:
   install-deps:
     run: once
     cmds:
-      - npm install
+      - |-
+        npm install
 ```
 
 ## Configuration (.taskrc.yml)
@@ -615,15 +643,18 @@ version: '3'
 
 vars:
   VERSION:
-    sh: git describe --tags --always --dirty
+    sh: |-
+      git describe --tags --always --dirty
   COMMIT:
-    sh: git rev-parse --short HEAD
+    sh: |-
+      git rev-parse --short HEAD
 
 tasks:
   build:
     desc: Build the binary
     cmds:
-      - go build -ldflags="-X main.version={{.VERSION}} -X main.commit={{.COMMIT}}" -o bin/app ./cmd/app
+      - |-
+        go build -ldflags="-X main.version={{.VERSION}} -X main.commit={{.COMMIT}}" -o bin/app ./cmd/app
     sources:
       - ./**/*.go
       - go.mod
@@ -634,12 +665,14 @@ tasks:
   test:
     desc: Run tests
     cmds:
-      - go test -race -coverprofile=coverage.out ./...
+      - |-
+        go test -race -coverprofile=coverage.out ./...
 
   lint:
     desc: Run linter
     cmds:
-      - golangci-lint run ./...
+      - |-
+        golangci-lint run ./...
 
   default:
     desc: Build and test
@@ -672,8 +705,10 @@ tasks:
     cmds:
       - docker push {{.IMAGE}}:{{.TAG}}
     preconditions:
-      - sh: docker image inspect {{.IMAGE}}:{{.TAG}} > /dev/null 2>&1
-        msg: "Image not built. Run 'task docker:build' first."
+      - sh: |-
+          docker image inspect {{.IMAGE}}:{{.TAG}} > /dev/null 2>&1
+        msg: >-
+          Image not built. Run 'task docker:build' first.
 ```
 
 ### Deploy with Guards
@@ -687,9 +722,11 @@ tasks:
         - name: ENV
           enum: [dev, staging, prod]
     preconditions:
-      - sh: test -f .env.{{.ENV}}
+      - sh: |-
+          test -f .env.{{.ENV}}
         msg: "Missing .env.{{.ENV}} file"
-      - sh: kubectl config current-context | grep -q {{.ENV}}
+      - sh: |-
+          kubectl config current-context | grep -q {{.ENV}}
         msg: "Wrong kubectl context for {{.ENV}}"
     prompt: '{{if eq .ENV "prod"}}Deploy to PRODUCTION?{{end}}'
     if: '{{ne .ENV ""}}'
@@ -704,12 +741,14 @@ tasks:
   run:
     desc: "Run app with args: task run -- --port 8080"
     cmds:
-      - go run ./cmd/app {{.CLI_ARGS}}
+      - |-
+        go run ./cmd/app {{.CLI_ARGS}}
 
   test:
     desc: "Run tests: task test -- -run TestFoo -v"
     cmds:
-      - go test {{.CLI_ARGS}} ./...
+      - |-
+        go test {{.CLI_ARGS}} ./...
 ```
 
 ### Monorepo with Includes
@@ -748,7 +787,8 @@ tasks:
     internal: true
     dir: '{{.SERVICE_DIR}}'
     cmds:
-      - docker build -t {{.SERVICE_NAME}}:latest .
+      - |-
+        docker build -t {{.SERVICE_NAME}}:latest .
 
   build-api:
     cmds:
@@ -796,7 +836,8 @@ tasks:
             OS: [linux, darwin, windows]
             ARCH: [amd64, arm64]
         cmd: >-
-          GOOS={{.ITEM.OS}} GOARCH={{.ITEM.ARCH}}
+          GOOS={{.ITEM.OS}}
+          GOARCH={{.ITEM.ARCH}}
           go build -o bin/app-{{.ITEM.OS}}-{{.ITEM.ARCH}}{{if eq .ITEM.OS "windows"}}.exe{{end}}
           ./cmd/app
 ```
@@ -811,14 +852,15 @@ tasks:
     desc: Create a temp directory
     dir: '{{.USER_WORKING_DIR}}'
     cmds:
-      - |
+      - |-
         DIR=$(mktemp -d)
         echo "Created: $DIR"
 
   ports:
     desc: Show listening ports
     cmds:
-      - lsof -iTCP -sTCP:LISTEN -n -P
+      - |-
+        lsof -iTCP -sTCP:LISTEN -n -P
 ```
 
 Run with `task -g scratch`.
