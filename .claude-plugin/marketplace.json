@@ -18,9 +18,10 @@
         "./skills/ansible-naming-conventions",
         "./skills/backstage-app-upgrade",
         "./skills/changelog-generator",
+        "./skills/cli-crane",
+        "./skills/cli-taskfile",
         "./skills/clickhouse-chproxy-users",
         "./skills/conventional-commits",
-        "./skills/crane",
         "./skills/doc-to-markdown",
         "./skills/excel-parsing",
         "./skills/gitlab-ci-gitleaks",
@@ -31,7 +32,6 @@
         "./skills/orchestrating-swarms",
         "./skills/python",
         "./skills/python-lib-rich",
-        "./skills/taskfile",
         "./skills/vector-remap-language"
       ]
     }

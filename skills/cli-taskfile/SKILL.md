@@ -1,5 +1,5 @@
 ---
-name: taskfile
+name: cli-taskfile
 description: Use when writing, debugging, or reviewing Taskfile.yml configurations for task automation and build workflows. Triggers on Taskfile syntax questions, task dependency ordering, variable resolution, fingerprinting/caching, includes, environment setup, or CI/CD integration with go-task/task.
 ---
 

@@ -62,9 +62,10 @@ claude plugin install github:DimkaGorhover/agent-skills
 | [ansible-naming-conventions](skills/ansible-naming-conventions/) | Use when writing, reviewing, or structuring Ansible code — roles, variables, tasks, handlers, playbooks, inventory groups, or tags.                        |
 | [backstage-app-upgrade](skills/backstage-app-upgrade/)           | Use when upgrading a Backstage developer portal to a newer version. Covers the full upgrade lifecycle from planning through manual QA.                     |
 | [changelog-generator](skills/changelog-generator/)               | Automatically creates user-facing changelogs from git commits by analyzing commit history and transforming technical commits into release notes.           |
+| [cli-crane](skills/cli-crane/)                                   | Use when performing registry-direct operations with the crane CLI — copying images, inspecting manifests, mutating metadata, rebasing, multi-arch indexes. |
+| [cli-taskfile](skills/cli-taskfile/)                             | Use when writing, debugging, or reviewing Taskfile.yml configurations for task automation and build workflows.                                             |
 | [clickhouse-chproxy-users](skills/clickhouse-chproxy-users/)     | Use when configuring chproxy user authentication, wildcard passthrough, heartbeat users, or LDAP integration with ClickHouse.                              |
 | [conventional-commits](skills/conventional-commits/)             | Guidelines for writing conventional commit messages that follow project standards and trigger automated releases.                                          |
-| [crane](skills/crane/)                                           | Use when performing registry-direct operations with the crane CLI — copying images, inspecting manifests, mutating metadata, rebasing, multi-arch indexes. |
 | [doc-to-markdown](skills/doc-to-markdown/)                       | Convert a doc/docx file to markdown format.                                                                                                                |
 | [excel-parsing](skills/excel-parsing/)                           | Use when reading, analyzing, or extracting data from .xls or .xlsx binary spreadsheet files.                                                               |
 | [gitlab-ci-gitleaks](skills/gitlab-ci-gitleaks/)                 | Use when writing, reviewing, or configuring gitleaks secret scanning jobs in GitLab CI pipelines.                                                          |
@@ -75,7 +76,6 @@ claude plugin install github:DimkaGorhover/agent-skills
 | [orchestrating-swarms](skills/orchestrating-swarms/)             | Master multi-agent orchestration using Claude Code's Task system — parallel code reviews, pipeline workflows, self-organizing task queues.                 |
 | [python](skills/python/)                                         | Basic skill for using Python.                                                                                                                              |
 | [python-lib-rich](skills/python-lib-rich/)                       | Use when writing Python CLI tools that need formatted terminal output — tables, progress bars, colored text, syntax highlighting, spinners.                |
-| [taskfile](skills/taskfile/)                                     | Use when writing, debugging, or reviewing Taskfile.yml configurations for task automation and build workflows.                                             |
 | [vector-remap-language](skills/vector-remap-language/)           | Use when writing, debugging, or reviewing VRL scripts for data transformation in Vector pipelines.                                                         |
 
 ## Adding a New Skill
