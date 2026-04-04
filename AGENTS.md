@@ -122,6 +122,23 @@ When adding a new skill, register it in `.claude-plugin/marketplace.json`:
 
 Keep the `skills` array sorted alphabetically.
 
+### Versioning
+
+**Bump `metadata.version` in `.claude-plugin/marketplace.json` whenever:**
+
+- Any skill file under `skills/` is added, removed, or meaningfully changed
+- `.claude-plugin/marketplace.json` itself is modified (skills list, descriptions, plugin metadata)
+
+Use [semver](https://semver.org) patch/minor/major increments:
+
+| Change type                          | Bump    | Example           |
+| ------------------------------------ | ------- | ----------------- |
+| New skill added                      | `minor` | `1.0.0` → `1.1.0` |
+| Skill removed                        | `major` | `1.1.0` → `2.0.0` |
+| Skill content updated (non-breaking) | `patch` | `1.1.0` → `1.1.1` |
+| Skill renamed or path changed        | `major` | `1.1.1` → `2.0.0` |
+| Marketplace metadata only updated    | `patch` | `2.0.0` → `2.0.1` |
+
 ## Code Style
 
 ### Markdown
@@ -165,5 +182,6 @@ Keep the `skills` array sorted alphabetically.
 1. Write the body — include **When to Use** and **When NOT to Use** sections (both required), plus guidelines and examples
 1. Add companion files in `references/` or `templates/` if the skill is complex
 1. Register the path in `.claude-plugin/marketplace.json` `skills` array (keep sorted)
+1. Bump `metadata.version` in `.claude-plugin/marketplace.json` (see [Versioning](#versioning))
 1. Add a row to the README.md skills table
 1. Run `uvx pre-commit run --all-files` — fix any failures before committing
