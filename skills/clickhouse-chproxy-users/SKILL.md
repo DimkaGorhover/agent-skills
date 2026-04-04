@@ -115,16 +115,18 @@ clusters:
 
 Create the ClickHouse user as a local (non-LDAP) user so chproxy can authenticate for heartbeat checks only.
 
-## Helm Chart Pattern (palefat rke2-deployments)
+## Helm Chart Pattern
 
-In `helm-charts/clickhouse/templates/chproxy-deployment.yaml`, probes are gated by `chproxy.livenessProbe.enabled` / `chproxy.readinessProbe.enabled`.
+In Helm-managed chproxy deployments, gate probes behind values flags
+(e.g. `chproxy.livenessProbe.enabled` / `chproxy.readinessProbe.enabled`).
 
-Default in `values.yaml` is `enabled: false` because `/ping` always returns 401 with no credentials in wildcard mode.
+Default these flags to `false` because unauthenticated `httpGet /ping` probes
+always return 401 with no credentials in wildcard passthrough mode.
 
-To re-enable probes in the future, either:
+To re-enable probes safely, use one of these patterns:
 
-1. Use `tcpSocket` probes (port check only, no auth needed)
-1. Add a dedicated non-wildcarded chproxy user with a known password for the probe to use via `httpGet` with `httpHeaders`
+1. `tcpSocket` probes (port-level check, no auth required)
+1. A dedicated non-wildcarded chproxy user with a known password used by authenticated HTTP probes
 
 ## References
 

@@ -1,24 +1,24 @@
 ---
 name: helm-chart-unittest
-description: Use when writing, reviewing, or extending helm-unittest test files for Helm charts in rke2-deployments. Covers file structure, assertion patterns, test values, multi-document templates, and conditional rendering.
+description: Use when writing, reviewing, or extending helm-unittest test files for Helm charts. Covers file structure, assertion patterns, test values, multi-document templates, and conditional rendering.
 ---
 
 # Helm Chart Unit Testing (helm-unittest)
 
 ## When to Use
 
-- Writing new `helm-unittest` test files for Helm charts in rke2-deployments
+- Writing new `helm-unittest` test files for Helm charts following the company-common + bitnami pattern
 - Reviewing or extending existing test suites (`_test.yaml` files)
 - Debugging assertion failures in `helm unittest` output
 - Adding coverage for conditional rendering, multi-document templates, or CRD-gated resources
 
 ## When NOT to Use
 
-- Helm charts outside the rke2-deployments repository that don't follow the palefat layout
+- Helm charts that don't follow the company-common + bitnami layout used by this skill
 - Writing Helm chart templates themselves — use the `helm-chart-structuring` skill instead
 - Other Helm testing frameworks (Terratest, chart-testing `ct`)
 
-This skill captures the exact patterns used across `helm-charts/airflow`, `helm-charts/minio`, and `helm-charts/vault` for writing `helm-unittest` test suites.
+This skill captures the patterns for writing `helm-unittest` test suites for complex multi-component charts.
 
 ## File Layout
 
@@ -50,8 +50,8 @@ templates:                        # ALL templates the suite may reference
   - configs/shared-config.yaml   # include shared configs even if not directly tested
 
 release:
-  name: <chart-release-name>     # e.g. "airflow", "minio-v2", "vault"
-  namespace: <target-namespace>  # e.g. "palefat-airflow-prod", "minio-v2", "vault"
+  name: <chart-release-name>     # e.g. "my-app", "my-service"
+  namespace: <target-namespace>  # e.g. "my-app", "production"
 
 # Optional — override chart metadata for version-sensitive label assertions
 chart:
@@ -181,7 +181,7 @@ Every component test file should follow this order:
         value: af-webserver
     - equal:
         path: metadata.namespace
-        value: palefat-airflow-prod
+        value: airflow-ns
 
 - it: deployment namespace
   template: webserver/Deployment.yaml
@@ -204,7 +204,7 @@ Every component test file should follow this order:
         value: airflow-scheduler
     - equal:
         path: metadata.namespace
-        value: palefat-airflow-prod
+        value: airflow-ns
     - equal:
         path: spec.maxUnavailable
         value: 0
@@ -334,7 +334,7 @@ Every component test file should follow this order:
         of: StatefulSet
     - equal:
         path: metadata.name
-        value: "airflow-worker-j-palefat-wishmaster"
+        value: "airflow-worker-team-0"
 
 - it: second document has correct name
   template: worker/DeploymentPerTeam.yaml
@@ -344,7 +344,7 @@ Every component test file should follow this order:
         of: StatefulSet
     - equal:
         path: metadata.name
-        value: "airflow-worker-j-palefat-powerbi"
+        value: "airflow-worker-team-1"
 ```
 
 ### CRD-gated resources (capabilities)
@@ -413,8 +413,8 @@ sidekick:
   portName: port0
   replicas: 4
   image:
-    registry: nexus.fozzy.lan
-    repository: palefat/minio-sidekick
+    registry: ghcr.io
+    repository: org/my-sidecar
     tag: 0.1.86      # pin explicit tag for reproducibility
     pullPolicy: IfNotPresent
   pdb:
