@@ -30,7 +30,7 @@
         "./skills/markdown-to-pdf",
         "./skills/orchestrating-swarms",
         "./skills/python",
-        "./skills/rich-terminal-output",
+        "./skills/python-lib-rich",
         "./skills/taskfile",
         "./skills/vector-remap-language"
       ]

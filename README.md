@@ -74,7 +74,7 @@ claude plugin install github:DimkaGorhover/agent-skills
 | [markdown-to-pdf](skills/markdown-to-pdf/)                       | Use when generating a PDF file from markdown content or converting a markdown file to PDF using Python.                                                    |
 | [orchestrating-swarms](skills/orchestrating-swarms/)             | Master multi-agent orchestration using Claude Code's Task system — parallel code reviews, pipeline workflows, self-organizing task queues.                 |
 | [python](skills/python/)                                         | Basic skill for using Python.                                                                                                                              |
-| [rich-terminal-output](skills/rich-terminal-output/)             | Use when writing Python CLI tools that need formatted terminal output — tables, progress bars, colored text, syntax highlighting, spinners.                |
+| [python-lib-rich](skills/python-lib-rich/)                       | Use when writing Python CLI tools that need formatted terminal output — tables, progress bars, colored text, syntax highlighting, spinners.                |
 | [taskfile](skills/taskfile/)                                     | Use when writing, debugging, or reviewing Taskfile.yml configurations for task automation and build workflows.                                             |
 | [vector-remap-language](skills/vector-remap-language/)           | Use when writing, debugging, or reviewing VRL scripts for data transformation in Vector pipelines.                                                         |
 

@@ -1,5 +1,5 @@
 ---
-name: rich-terminal-output
+name: python-lib-rich
 description: Use when writing Python CLI tools, scripts, or terminal applications that need formatted terminal output — tables, progress bars, colored text, syntax highlighting, trees, status spinners, tracebacks, or pretty-printed data. Triggers on any terminal formatting need, "make output pretty", styled logging, or Rich library usage.
 ---
 
