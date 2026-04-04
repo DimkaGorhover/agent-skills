@@ -57,26 +57,27 @@ claude plugin install github:DimkaGorhover/agent-skills
 
 ## Available Skills
 
-| Skill                                                            | Description                                                                                                                                                |
-| ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [ansible-naming-conventions](skills/ansible-naming-conventions/) | Use when writing, reviewing, or structuring Ansible code — roles, variables, tasks, handlers, playbooks, inventory groups, or tags.                        |
-| [backstage-app-upgrade](skills/backstage-app-upgrade/)           | Use when upgrading a Backstage developer portal to a newer version. Covers the full upgrade lifecycle from planning through manual QA.                     |
-| [changelog-generator](skills/changelog-generator/)               | Automatically creates user-facing changelogs from git commits by analyzing commit history and transforming technical commits into release notes.           |
-| [cli-crane](skills/cli-crane/)                                   | Use when performing registry-direct operations with the crane CLI — copying images, inspecting manifests, mutating metadata, rebasing, multi-arch indexes. |
-| [cli-taskfile](skills/cli-taskfile/)                             | Use when writing, debugging, or reviewing Taskfile.yml configurations for task automation and build workflows.                                             |
-| [clickhouse-chproxy-users](skills/clickhouse-chproxy-users/)     | Use when configuring chproxy user authentication, wildcard passthrough, heartbeat users, or LDAP integration with ClickHouse.                              |
-| [conventional-commits](skills/conventional-commits/)             | Guidelines for writing conventional commit messages that follow project standards and trigger automated releases.                                          |
-| [doc-to-markdown](skills/doc-to-markdown/)                       | Convert a doc/docx file to markdown format.                                                                                                                |
-| [excel-parsing](skills/excel-parsing/)                           | Use when reading, analyzing, or extracting data from .xls or .xlsx binary spreadsheet files.                                                               |
-| [gitlab-ci-gitleaks](skills/gitlab-ci-gitleaks/)                 | Use when writing, reviewing, or configuring gitleaks secret scanning jobs in GitLab CI pipelines.                                                          |
-| [golang-urfave-v2-to-v3](skills/golang-urfave-v2-to-v3/)         | A practical guide for migrating Go projects from urfave/cli v2 to v3.                                                                                      |
-| [helm-chart-structuring](skills/helm-chart-structuring/)         | Use when creating, extending, or reviewing Helm charts.                                                                                                    |
-| [helm-chart-unittest](skills/helm-chart-unittest/)               | Use when writing, reviewing, or extending helm-unittest test files for Helm charts.                                                                        |
-| [markdown-to-pdf](skills/markdown-to-pdf/)                       | Use when generating a PDF file from markdown content or converting a markdown file to PDF using Python.                                                    |
-| [orchestrating-swarms](skills/orchestrating-swarms/)             | Master multi-agent orchestration using Claude Code's Task system — parallel code reviews, pipeline workflows, self-organizing task queues.                 |
-| [python](skills/python/)                                         | Modern Python tooling with uv, ruff, ty — use when creating projects, writing standalone scripts, or migrating from pip/Poetry/mypy/black.                 |
-| [python-lib-rich](skills/python-lib-rich/)                       | Use when writing Python CLI tools that need formatted terminal output — tables, progress bars, colored text, syntax highlighting, spinners.                |
-| [vector-remap-language](skills/vector-remap-language/)           | Use when writing, debugging, or reviewing VRL scripts for data transformation in Vector pipelines.                                                         |
+| Skill                                                            | Description                                                                                                                                                 |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [ansible-naming-conventions](skills/ansible-naming-conventions/) | Use when writing, reviewing, or structuring Ansible code — roles, variables, tasks, handlers, playbooks, inventory groups, or tags.                         |
+| [backstage-app-upgrade](skills/backstage-app-upgrade/)           | Use when upgrading a Backstage developer portal to a newer version. Covers the full upgrade lifecycle from planning through manual QA.                      |
+| [changelog-generator](skills/changelog-generator/)               | Automatically creates user-facing changelogs from git commits by analyzing commit history and transforming technical commits into release notes.            |
+| [cli-crane](skills/cli-crane/)                                   | Use when performing registry-direct operations with the crane CLI — copying images, inspecting manifests, mutating metadata, rebasing, multi-arch indexes.  |
+| [cli-taskfile](skills/cli-taskfile/)                             | Use when writing, debugging, or reviewing Taskfile.yml configurations for task automation and build workflows.                                              |
+| [clickhouse-chproxy-users](skills/clickhouse-chproxy-users/)     | Use when configuring chproxy user authentication, wildcard passthrough, heartbeat users, or LDAP integration with ClickHouse.                               |
+| [conventional-commits](skills/conventional-commits/)             | Guidelines for writing conventional commit messages that follow project standards and trigger automated releases.                                           |
+| [doc-to-markdown](skills/doc-to-markdown/)                       | Convert a doc/docx file to markdown format.                                                                                                                 |
+| [excel-parsing](skills/excel-parsing/)                           | Use when reading, analyzing, or extracting data from .xls or .xlsx binary spreadsheet files.                                                                |
+| [gitlab-ci-gitleaks](skills/gitlab-ci-gitleaks/)                 | Use when writing, reviewing, or configuring gitleaks secret scanning jobs in GitLab CI pipelines.                                                           |
+| [golang-urfave-v2-to-v3](skills/golang-urfave-v2-to-v3/)         | A practical guide for migrating Go projects from urfave/cli v2 to v3.                                                                                       |
+| [helm-chart-structuring](skills/helm-chart-structuring/)         | Use when creating, extending, or reviewing Helm charts.                                                                                                     |
+| [helm-chart-unittest](skills/helm-chart-unittest/)               | Use when writing, reviewing, or extending helm-unittest test files for Helm charts.                                                                         |
+| [markdown-to-pdf](skills/markdown-to-pdf/)                       | Use when generating a PDF file from markdown content or converting a markdown file to PDF using Python.                                                     |
+| [orchestrating-swarms](skills/orchestrating-swarms/)             | Master multi-agent orchestration using Claude Code's Task system — parallel code reviews, pipeline workflows, self-organizing task queues.                  |
+| [python](skills/python/)                                         | Modern Python tooling with uv, ruff, ty — use when creating projects, writing standalone scripts, or migrating from pip/Poetry/mypy/black.                  |
+| [python-lib-rich](skills/python-lib-rich/)                       | Use when writing Python CLI tools that need formatted terminal output — tables, progress bars, colored text, syntax highlighting, spinners.                 |
+| [terraform-actions](skills/terraform-actions/)                   | Use when writing Terraform 1.14+ action block and action_trigger workflows for day-2 operations, including after_create/after_update and -invoke execution. |
+| [vector-remap-language](skills/vector-remap-language/)           | Use when writing, debugging, or reviewing VRL scripts for data transformation in Vector pipelines.                                                          |
 
 ## Adding a New Skill
 
