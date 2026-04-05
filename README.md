@@ -79,44 +79,6 @@ claude plugin install github:DimkaGorhover/agent-skills
 | [terraform-actions](skills/terraform-actions/)                   | Use when writing Terraform 1.14+ action block and action_trigger workflows for day-2 operations, including after_create/after_update and -invoke execution. |
 | [vector-remap-language](skills/vector-remap-language/)           | Use when writing, debugging, or reviewing VRL scripts for data transformation in Vector pipelines.                                                          |
 
-## Adding a New Skill
-
-Each skill lives in its own directory under `skills/`:
-
-```
-skills/
-  my-skill/
-    SKILL.md           # required
-    references/        # optional companion docs
-    templates/         # optional templates
-```
-
-Create a new skill:
-
-```bash
-bunx skills init skills/my-skill
-```
-
-`SKILL.md` format:
-
-```markdown
----
-name: my-skill
-description: What this skill does and when Claude should use it
----
-
-# My Skill
-
-Instructions for the agent...
-```
-
-### Required frontmatter fields
-
-| Field         | Description                                                                          |
-| ------------- | ------------------------------------------------------------------------------------ |
-| `name`        | Unique identifier, lowercase, hyphens allowed                                        |
-| `description` | Brief explanation — this is what the agent reads to decide whether to load the skill |
-
 ## Supported Agents
 
 Skills install to any agent supported by the `skills` CLI — including Claude Code, OpenCode, Cursor, Codex, GitHub Copilot, and [40+ others](https://github.com/vercel-labs/skills#supported-agents).

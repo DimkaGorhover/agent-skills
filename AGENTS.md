@@ -176,7 +176,45 @@ Use [semver](https://semver.org) patch/minor/major increments:
 | `yamllint`                | YAML style lint (rules from `.yamllint.yaml`) |
 | `mdformat`                | Auto-formats all Markdown files               |
 
-## Adding a New Skill — Checklist
+## Adding a New Skill
+
+Each skill lives in its own directory under `skills/`:
+
+```
+skills/
+  my-skill/
+    SKILL.md           # required
+    references/        # optional companion docs
+    templates/         # optional templates
+```
+
+Scaffold a new skill:
+
+```bash
+bunx skills init skills/my-skill
+```
+
+`SKILL.md` format:
+
+```markdown
+---
+name: my-skill
+description: What this skill does and when Claude should use it
+---
+
+# My Skill
+
+Instructions for the agent...
+```
+
+### Required frontmatter fields
+
+| Field         | Description                                                                          |
+| ------------- | ------------------------------------------------------------------------------------ |
+| `name`        | Unique identifier, lowercase, hyphens allowed                                        |
+| `description` | Brief explanation — this is what the agent reads to decide whether to load the skill |
+
+### Checklist
 
 1. Create `skills/<skill-name>/SKILL.md` with `name` and `description` frontmatter
 1. Write the body — include **When to Use** and **When NOT to Use** sections (both required), plus guidelines and examples
