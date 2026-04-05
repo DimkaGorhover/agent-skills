@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Personal collection of Claude Code agent skills by DimkaGorhover",
-    "version": "1.2.0"
+    "version": "1.2.1"
   },
   "plugins": [
     {

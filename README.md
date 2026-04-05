@@ -55,6 +55,32 @@ Install via the Claude Code UI or CLI:
 claude plugin install github:DimkaGorhover/agent-skills
 ```
 
+## Upgrade
+
+When a new version of this skills collection is released, re-run the install commands — the `skills` CLI
+handles updates automatically:
+
+```bash
+# Check which skills have updates available
+bunx skills check
+
+# Pull the latest version of all installed skills
+bunx skills update
+```
+
+Or with `npx`:
+
+```bash
+npx skills check
+npx skills update
+```
+
+> If you installed via the Claude Code Marketplace, use:
+>
+> ```bash
+> claude plugin update github:DimkaGorhover/agent-skills
+> ```
+
 ## Available Skills
 
 | Skill                                                            | Description                                                                                                                                                 |
