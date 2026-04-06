@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Personal collection of Claude Code agent skills by DimkaGorhover",
-    "version": "1.3.0"
+    "version": "1.4.0"
   },
   "plugins": [
     {
@@ -24,6 +24,7 @@
         "./skills/clickhouse-chproxy-users",
         "./skills/conventional-commits",
         "./skills/doc-to-markdown",
+        "./skills/dockerfile-fnox",
         "./skills/excel-parsing",
         "./skills/gitlab-ci-gitleaks",
         "./skills/golang-urfave-v2-to-v3",
