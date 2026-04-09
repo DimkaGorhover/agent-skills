@@ -1,6 +1,9 @@
 ---
 name: clickhouse-chproxy-users
 description: Use when configuring chproxy user authentication, wildcard passthrough, heartbeat users, or LDAP integration with ClickHouse. Triggers when setting up chproxy clusters, users, or dealing with 401 probe failures.
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # chproxy User Auth & Wildcard Passthrough

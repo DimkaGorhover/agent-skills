@@ -1,6 +1,9 @@
 ---
 name: conventional-commits
 description: Guidelines for writing conventional commit messages that follow project standards and trigger automated releases
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # Conventional Commits Skill

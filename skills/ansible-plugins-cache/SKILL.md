@@ -5,6 +5,9 @@ description: >-
   caching. Triggers on cache plugin selection, fact_caching configuration, inventory caching setup,
   cache backend comparison (memory/jsonfile/yaml/redis/memcached/mongodb), or cache-related
   performance questions.
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # Ansible Cache Plugins

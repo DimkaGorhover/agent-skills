@@ -1,6 +1,9 @@
 ---
 name: vector-remap-language
 description: Use when writing, debugging, or reviewing Vector Remap Language (VRL) scripts for data transformation in Vector pipelines. Triggers on VRL syntax questions, compile-time errors (100-801), fallible function handling, type coercion, path expressions, or event manipulation in vector.dev remap transforms.
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # Vector Remap Language (VRL)

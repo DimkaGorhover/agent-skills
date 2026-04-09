@@ -1,6 +1,9 @@
 ---
 name: helm-chart-structuring
 description: Use when creating, extending, or reviewing application Helm charts. Covers chart layout, values/schema design, template conventions, and reusable helper-library patterns (bitnami common and custom library charts).
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # Helm Chart Structuring

@@ -1,6 +1,9 @@
 ---
 name: ansible-naming-conventions
 description: Use when writing, reviewing, or structuring Ansible code — roles, variables, tasks, handlers, playbooks, inventory groups, or tags. Triggers on naming inconsistencies, variable collision concerns, ansible-lint naming errors, or starting a new Ansible project.
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # Ansible Naming Conventions

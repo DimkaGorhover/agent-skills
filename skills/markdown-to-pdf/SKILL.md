@@ -1,6 +1,9 @@
 ---
 name: markdown-to-pdf
 description: Use when generating a PDF file from markdown content or converting a markdown file to PDF using Python.
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # Markdown to PDF Conversion Skill

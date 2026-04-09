@@ -1,6 +1,9 @@
 ---
 name: helm-chart-unittest
 description: Use when writing, reviewing, or extending helm-unittest test files for Helm charts. Covers file structure, assertion patterns, test values, multi-document templates, and conditional rendering.
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # Helm Chart Unit Testing (helm-unittest)

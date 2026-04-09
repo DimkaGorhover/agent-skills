@@ -1,6 +1,9 @@
 ---
 name: gitlab-ci-gitleaks
 description: Use when writing, reviewing, or configuring gitleaks secret scanning jobs in GitLab CI pipelines. Triggers on gitleaks CI job creation, .gitleaks.toml configuration, incremental scan setup, report artifact configuration, or pre-commit hook integration with gitleaks.
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # GitLab CI Gitleaks — Secret Scanning Skill

@@ -4,6 +4,9 @@ description: >-
   Use when installing fnox (Fort Knox secrets manager) in a Dockerfile. Triggers when
   adding fnox to Alpine, Debian, Ubuntu, or Rocky Linux images, writing fnox exec
   entrypoints, or hitting glibc/musl compatibility errors with fnox on Alpine.
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # Installing fnox in Dockerfiles

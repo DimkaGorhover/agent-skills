@@ -1,6 +1,9 @@
 ---
 name: cli-crane
 description: Use when performing registry-direct operations with the crane CLI, such as copying/promoting images, inspecting manifests/configs, mutating metadata, rebasing images, or creating/filtering multi-arch indexes without a Docker daemon.
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # crane

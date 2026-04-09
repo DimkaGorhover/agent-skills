@@ -1,6 +1,9 @@
 ---
 name: golang-urfave-v2-to-v3
 description: A practical, pattern-complete guide for migrating Go projects from urfave/cli v2 to v3, derived from the official migration guide plus real-world gotchas discovered during production migration.
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # urfave/cli v2 → v3 Migration Guide (AI Agent Reference)

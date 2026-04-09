@@ -1,6 +1,9 @@
 ---
 name: terraform-actions
 description: Use when implementing Terraform action block workflows and action_trigger lifecycle hooks for after_create/after_update day-2 operations, including -invoke runs.
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # Terraform Actions

@@ -24,6 +24,9 @@ uvx --with "mdformat-gfm" --with "mdformat-frontmatter" mdformat <file.md>
 
 # Lint YAML files
 uvx yamllint -c .yamllint.yaml <file.yaml>
+
+# Validate a skill directory
+uvx --from skills-ref agentskills validate skills/my-skill
 ```
 
 > Pre-commit is invoked via `uvx pre-commit` — never call `pre-commit` directly.
@@ -75,6 +78,7 @@ skills/
 name: my-skill              # required: unique, lowercase, kebab-case
 description: >              # required: one sentence — this is what agents read
   Use when doing X. Triggers on Y.
+version: 1.0.0              # required: semver — bump on every meaningful change
 ---
 ```
 
@@ -83,7 +87,8 @@ description: >              # required: one sentence — this is what agents rea
 - `name` must match the directory name exactly
 - `description` is the primary trigger signal agents use to decide whether to load the skill — make it
   precise, actionable, and mention trigger phrases
-- No other frontmatter fields are required; avoid adding unnecessary metadata
+- `version` must follow semver — bump it whenever the skill content changes (see [Per-Skill Versioning](#per-skill-versioning))
+- No other frontmatter fields are needed; avoid adding unnecessary metadata
 
 ### SKILL.md Body Conventions
 
@@ -164,17 +169,18 @@ Use [semver](https://semver.org) patch/minor/major increments:
 
 ## Pre-commit Hooks Summary
 
-| Hook                      | What it checks                                |
-| ------------------------- | --------------------------------------------- |
-| `check-added-large-files` | Prevents committing large binary files        |
-| `check-symlinks`          | Detects broken symlinks                       |
-| `trailing-whitespace`     | Removes trailing spaces                       |
-| `end-of-file-fixer`       | Ensures files end with a newline              |
-| `check-json`              | Validates JSON syntax                         |
-| `check-yaml`              | Validates YAML syntax                         |
-| `gitleaks`                | Secret scanning (blocks credential leaks)     |
-| `yamllint`                | YAML style lint (rules from `.yamllint.yaml`) |
-| `mdformat`                | Auto-formats all Markdown files               |
+| Hook                      | What it checks                                            |
+| ------------------------- | --------------------------------------------------------- |
+| `check-added-large-files` | Prevents committing large binary files                    |
+| `check-symlinks`          | Detects broken symlinks                                   |
+| `trailing-whitespace`     | Removes trailing spaces                                   |
+| `end-of-file-fixer`       | Ensures files end with a newline                          |
+| `check-json`              | Validates JSON syntax                                     |
+| `check-yaml`              | Validates YAML syntax                                     |
+| `gitleaks`                | Secret scanning (blocks credential leaks)                 |
+| `yamllint`                | YAML style lint (rules from `.yamllint.yaml`)             |
+| `mdformat`                | Auto-formats all Markdown files                           |
+| `agentskills-validate`    | Validates skill structure and content (`skills/` changes) |
 
 ## Adding a New Skill
 
@@ -200,6 +206,9 @@ bunx skills init skills/my-skill
 ---
 name: my-skill
 description: What this skill does and when Claude should use it
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # My Skill
@@ -209,14 +218,26 @@ Instructions for the agent...
 
 ### Required frontmatter fields
 
-| Field         | Description                                                                          |
-| ------------- | ------------------------------------------------------------------------------------ |
-| `name`        | Unique identifier, lowercase, hyphens allowed                                        |
-| `description` | Brief explanation — this is what the agent reads to decide whether to load the skill |
+| Field              | Description                                                                          |
+| ------------------ | ------------------------------------------------------------------------------------ |
+| `name`             | Unique identifier, lowercase, hyphens allowed                                        |
+| `description`      | Brief explanation — this is what the agent reads to decide whether to load the skill |
+| `metadata.author`  | The name of the author of the skill                                                  |
+| `metadata.version` | Semver string — start at `1.0.0`, bump on every meaningful change                    |
+
+### Per-Skill Versioning
+
+Every `SKILL.md` carries its own `version` field. **Bump it whenever you make a meaningful change to the skill.**
+
+| Change type                                                      | Bump    | Example           |
+| ---------------------------------------------------------------- | ------- | ----------------- |
+| Bug fix, typo, clarification (non-breaking)                      | `patch` | `1.0.0` → `1.0.1` |
+| New section, improved examples, added rules                      | `minor` | `1.0.0` → `1.1.0` |
+| Renamed fields, removed sections, restructured in a breaking way | `major` | `1.1.0` → `2.0.0` |
 
 ### Checklist
 
-1. Create `skills/<skill-name>/SKILL.md` with `name` and `description` frontmatter
+1. Create `skills/<skill-name>/SKILL.md` with `name`, `description`, and `version: 1.0.0` frontmatter
 1. Write the body — include **When to Use** and **When NOT to Use** sections (both required), plus guidelines and examples
 1. Add companion files in `references/` or `templates/` if the skill is complex
 1. Register the path in `.claude-plugin/marketplace.json` `skills` array (keep sorted)

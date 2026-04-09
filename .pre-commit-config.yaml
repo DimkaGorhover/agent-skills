@@ -49,3 +49,10 @@ repos:
           mdformat
         types:
           - "markdown"
+      - id: "agentskills-validate"
+        name: "Validate Skill"
+        language: "script"
+        entry: ".hooks/validate-skills.py"
+        files: "^skills/"
+        stages:
+          - "pre-commit"

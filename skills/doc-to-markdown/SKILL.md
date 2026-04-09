@@ -1,6 +1,9 @@
 ---
 name: doc-to-markdown
 description: Convert a doc/docx file to markdown format.
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # Doc to Markdown Conversion Skill

@@ -1,6 +1,9 @@
 ---
 name: python
 description: Configures Python projects with modern tooling (uv, ruff, ty). Use when creating projects, writing standalone scripts, or migrating from pip/Poetry/mypy/black.
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # Python

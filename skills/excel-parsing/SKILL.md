@@ -1,6 +1,9 @@
 ---
 name: excel-parsing
 description: Use when reading, analyzing, or extracting data from .xls or .xlsx binary spreadsheet files. Triggers when Read tool returns "Cannot read binary file", when the user references a spreadsheet, or when structured tabular data must be extracted from Excel format.
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # Excel / Spreadsheet Parsing

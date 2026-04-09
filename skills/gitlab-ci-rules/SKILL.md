@@ -5,6 +5,9 @@ description: >-
   rules:if conditions, CI_PIPELINE_SOURCE filtering, unexpected job inclusion or
   exclusion, duplicate pipelines, rules:changes, rules:exists, when:never/manual/always,
   variable expressions with =~, !~, &&, ||, or migrating from only/except to rules.
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # GitLab CI Rules

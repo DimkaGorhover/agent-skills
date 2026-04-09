@@ -1,6 +1,9 @@
 ---
 name: backstage-app-upgrade
 description: Use when upgrading a Backstage developer portal to a newer version. Triggers on version bumps, breaking change migration, Yarn patch management for community plugins, and post-upgrade verification. Covers the full upgrade lifecycle from planning through manual QA.
+metadata:
+  author: d.horkhover
+  version: 1.0.0
 ---
 
 # Backstage App Upgrade Skill
