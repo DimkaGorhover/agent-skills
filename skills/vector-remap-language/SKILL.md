@@ -1,9 +1,9 @@
 ---
 name: vector-remap-language
-description: Use when writing, debugging, or reviewing Vector Remap Language (VRL) scripts for data transformation in Vector pipelines. Triggers on VRL syntax questions, compile-time errors (100-801), fallible function handling, type coercion, path expressions, or event manipulation in vector.dev remap transforms.
+description: Use when writing, debugging, validating, or reviewing Vector Remap Language (VRL) scripts for data transformation in Vector pipelines. Triggers on VRL syntax questions, compile-time errors (100-900), fallible function handling, type coercion, path expressions, event manipulation, or VRL CLI usage. Covers the standalone `vrl` CLI for validation, REPL, and script execution.
 metadata:
   author: d.horkhover
-  version: 1.0.0
+  version: 2.1.0
 ---
 
 # Vector Remap Language (VRL)
@@ -15,10 +15,135 @@ VRL is an **expression-oriented**, **fail-safe**, **stateless** language for tra
 ## When to Use
 
 - Writing `remap` transforms in Vector config
-- Debugging VRL compile-time errors (codes 100–801)
+- Debugging VRL compile-time errors (codes 100–900)
+- Validating VRL scripts with the standalone `vrl` CLI
 - Parsing logs (syslog, JSON, key-value, custom formats)
 - Coercing types, enriching events, routing data
 - Understanding VRL's type safety and error handling model
+- Interactive VRL development via the REPL
+
+## When NOT to Use
+
+- **Vector pipeline configuration** (sources, sinks, routing topology) — VRL only covers the `remap` transform layer, not Vector's YAML/TOML pipeline config
+- **Stateful aggregation** — VRL is stateless per-event; use Vector's `reduce` transform for multi-event aggregation, windowing, or session tracking
+- **Custom function authoring** — VRL has no user-defined functions or recursion; if you need reusable logic across transforms, compose Vector transforms instead
+- **General scripting or automation** — VRL is not a general-purpose language; use Python, Bash, or another scripting language for tasks outside event transformation
+- **Vector installation, source/sink config, or pipeline topology questions** — these are Vector concerns, not VRL
+
+## VRL CLI — Standalone Validation and Execution
+
+The `vrl` binary (built from the VRL project at https://github.com/vectordotdev/vrl) provides a standalone CLI for validating, running, and interactively developing VRL scripts — independent of Vector itself.
+
+### CLI Usage
+
+```bash
+# Interactive REPL (no arguments)
+vrl
+
+# Execute inline program
+vrl '.foo = downcase(.bar)'
+
+# Execute inline program with JSON input
+vrl '.parsed = parse_json!(.message)' --input event.json
+
+# Execute program from file
+vrl --program my_script.vrl
+
+# Execute program from file with input
+vrl --program my_script.vrl --input events.jsonl
+
+# Validate only (compilation errors printed with diagnostics)
+vrl --program my_script.vrl
+
+# Print modified event object instead of final expression result
+vrl --program my_script.vrl --input event.json --print-object
+
+# Show compilation warnings
+vrl --program my_script.vrl --print-warnings
+
+# Set timezone for date parsing
+vrl --program my_script.vrl --timezone "America/New_York"
+
+# Quiet mode (suppress REPL banners)
+vrl -q
+```
+
+### CLI Options
+
+| Flag                  | Short | Description                                             |
+| --------------------- | ----- | ------------------------------------------------------- |
+| `PROGRAM`             |       | Inline VRL program to execute                           |
+| `--program <FILE>`    | `-p`  | File containing VRL program                             |
+| `--input <FILE>`      | `-i`  | JSON input file (one event per line)                    |
+| `--print-object`      | `-o`  | Print modified event instead of final expression result |
+| `--timezone <TZ>`     | `-z`  | Timezone for date parsing                               |
+| `--runtime <RUNTIME>` | `-v`  | Runtime to use (default: ast)                           |
+| `--print-warnings`    |       | Emit compilation warnings                               |
+| `--quiet`             | `-q`  | Suppress REPL banners                                   |
+
+### Input Format
+
+The `--input` file expects one JSON object per line (JSONL):
+
+```json lines
+{"message": "2024-01-15 ERROR failed to connect", "host": "web-01"}
+{"message": "2024-01-15 INFO request completed", "host": "web-02"}
+```
+
+When no input is provided, the CLI uses an empty object `{}` as the event.
+
+### Validation Workflow
+
+The `vrl` CLI compiles the program before execution. If compilation fails, it prints rich diagnostic output with error codes, source spans, and suggestions — then exits with a non-zero code. This makes it suitable for CI/CD validation:
+
+```bash
+# Validate all VRL scripts in a directory
+for f in scripts/*.vrl; do
+  vrl --program "$f" < /dev/null || echo "FAIL: $f"
+done
+```
+
+### REPL
+
+Running `vrl` with no program argument opens an interactive REPL where you can:
+
+- Test VRL expressions against a live event object
+- Iterate on transformations interactively
+- Provide initial event data with `--input`
+
+#### REPL Commands
+
+| Command             | Description                                                                                                       |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `help`              | Show available REPL commands                                                                                      |
+| `help functions`    | Display a table of all available VRL functions (aliases: `help funcs`, `help fs`)                                 |
+| `help docs`         | Open the VRL docs website in your browser                                                                         |
+| `help docs <func>`  | Open browser docs for a specific function (e.g. `help docs parse_json`)                                           |
+| `help error <code>` | Open browser docs for a specific error code (e.g. `help error 103`) — resolves to `https://errors.vrl.dev/<code>` |
+| `next`              | Load the next input event (or create a new empty one)                                                             |
+| `prev`              | Load the previous input event                                                                                     |
+| `exit` / `quit`     | Terminate the REPL                                                                                                |
+
+#### REPL Multi-Event Workflow
+
+When you pass a JSONL file with multiple events via `--input`, the REPL loads the first one. Use `next` and `prev` to cycle through events:
+
+```bash
+# Start REPL with a file containing multiple events
+vrl --input events.jsonl
+
+# In the REPL:
+$ .              # inspect current event
+$ next           # advance to next event
+$ prev           # go back to previous event
+```
+
+The REPL supports:
+
+- **Tab completion** for function names
+- **History hints** (inline completion of previous commands)
+- **Bracket matching** highlighting
+- **Multi-line expressions** — incomplete expressions (e.g. open `if`) are detected and continuation is prompted automatically
 
 ## Core Concepts
 
@@ -33,9 +158,13 @@ VRL operates on a single **event** (log or metric) at a time. Access fields via 
 .tags[0]           # array index
 .tags[0].name      # nested in array
 
-# Metadata (read-only in most contexts)
+# Metadata
 %custom_metadata_field
 ```
+
+> **Metadata writability**: In `remap` transforms, `%field` metadata paths are **read-only** by default.
+> They are writable in `log_to_metric` and certain other Vector transform contexts. Attempting to write
+> `%field` in a `remap` transform produces error 315 (ReadOnly).
 
 ### Data Types
 
@@ -101,7 +230,7 @@ VRL narrows types as expressions execute:
 # .value starts as "any"
 .value = parse_json!(.raw)    # now: any JSON type
 if is_string(.value) {
-    .value = upcase!(.value)  # compiler knows it's string here
+    .value = upcase(.value)   # compiler knows it's string here; upcase is infallible
 }
 ```
 
@@ -125,7 +254,7 @@ VRL's defining feature: **all fallible expressions must have errors handled at c
 Functions marked as **fallible** can fail at runtime. The compiler enforces handling:
 
 ```coffee
-# ERROR 100: unhandled fallible assignment
+# ERROR 103: unhandled fallible assignment
 .parsed = parse_json(.raw)         # WON'T COMPILE
 
 # Three ways to handle:
@@ -143,22 +272,118 @@ if err != null {
 }
 ```
 
-### Common Compile-Time Errors
+### Compile-Time Error Codes (Complete Reference)
 
-| Code    | Error                         | Fix                                   |
-| ------- | ----------------------------- | ------------------------------------- |
-| 100     | Unhandled root runtime error  | Add `!`, `??`, or `, err =`           |
-| 101     | Malformed regex literal       | Check regex syntax in `r'...'`        |
-| 102     | Non-boolean if predicate      | Ensure condition is boolean           |
-| 103     | Unhandled fallible assignment | Handle with `!`, `??`, or `, err =`   |
-| 104     | Unnecessary error assignment  | Remove `, err =` from infallible call |
-| 105     | Undefined function            | Check function name spelling          |
-| 110     | Invalid argument type         | Pass correct type                     |
-| 203     | Unrecognized token            | Fix syntax                            |
-| 204     | Unexpected character          | Check for typos                       |
-| 300–315 | Type errors                   | Use type coercion or guards           |
-| 620     | Aborting infallible function  | Remove `!` from infallible call       |
-| 701     | Undefined variable            | Define variable before use            |
+Sourced from the VRL compiler source code. Each error code links to `https://errors.vrl.dev/<code>` — accessible from the REPL with `help error <code>`.
+
+#### Parser Errors (200–210)
+
+| Code | Error                | Description                           |
+| ---- | -------------------- | ------------------------------------- |
+| 200  | InvalidToken         | Invalid token in source               |
+| 201  | ExtraToken           | Unexpected extra token                |
+| 202  | UserParseError       | User-triggered parse error            |
+| 203  | UnrecognizedToken    | Unrecognized token in source          |
+| 204  | UnrecognizedEof      | Unexpected end of input               |
+| 205  | ReservedKeyword      | Use of reserved keyword as identifier |
+| 206  | NumericLiteral       | Invalid numeric literal               |
+| 207  | StringLiteral        | Invalid string literal                |
+| 208  | Literal              | Invalid literal                       |
+| 209  | EscapeChar           | Invalid escape character              |
+| 210  | UnexpectedParseError | Unexpected parser error               |
+
+#### Literal Errors
+
+| Code | Error            | Description                           |
+| ---- | ---------------- | ------------------------------------- |
+| 101  | InvalidRegex     | Malformed regex literal in `r'...'`   |
+| 601  | InvalidTimestamp | Invalid timestamp literal in `t'...'` |
+| 602  | NanFloat         | NaN float literal                     |
+
+#### Predicate / Boolean Errors
+
+| Code | Error                | Description                              |
+| ---- | -------------------- | ---------------------------------------- |
+| 102  | NonBoolean predicate | If-condition does not resolve to boolean |
+| 660  | NonBoolean negation  | `!` applied to non-boolean expression    |
+
+#### Assignment Errors
+
+| Code | Error                    | Description                                                 |
+| ---- | ------------------------ | ----------------------------------------------------------- |
+| 103  | FallibleAssignment       | Unhandled fallible assignment — use `!`, `??`, or `, err =` |
+| 104  | InfallibleAssignment     | Unnecessary error handling on infallible call               |
+| 315  | ReadOnly                 | Attempt to write to a read-only path                        |
+| 640  | UnnecessaryNoop          | No-op assignment has no effect                              |
+| 641  | InvalidTarget            | Invalid assignment target                                   |
+| 642  | InvalidParentPathSegment | Invalid parent path segment in assignment                   |
+
+#### Function Call Errors
+
+| Code | Error                        | Description                                |
+| ---- | ---------------------------- | ------------------------------------------ |
+| 105  | Undefined                    | Call to undefined function                 |
+| 106  | WrongNumberOfArgs            | Wrong number of arguments                  |
+| 107  | MissingArgument              | Required argument missing                  |
+| 108  | UnknownKeyword               | Unknown keyword argument                   |
+| 109  | UnexpectedClosure            | Unexpected closure / grok pattern error    |
+| 110  | InvalidArgumentKind          | Invalid argument type                      |
+| 111  | MissingClosure               | Required closure not provided              |
+| 120  | ClosureArityMismatch         | Closure has wrong number of parameters     |
+| 121  | ClosureParameterTypeMismatch | Closure parameter type mismatch            |
+| 122  | ReturnTypeMismatch           | Function return type mismatch              |
+| 610  | Compilation                  | Function compilation error                 |
+| 620  | AbortInfallible              | Abort `!` on infallible function (warning) |
+| 630  | FallibleArgument             | Fallible expression used as argument       |
+
+#### Function Argument Errors (400–420)
+
+| Code | Error                    | Description                             |
+| ---- | ------------------------ | --------------------------------------- |
+| 400  | UnexpectedExpression     | Unexpected expression type for argument |
+| 401  | InvalidEnumVariant       | Invalid enum variant for argument       |
+| 402  | ExpectedStaticExpression | Argument requires a static expression   |
+| 403  | InvalidArgument          | Invalid argument value                  |
+| 420  | ExpectedFunctionClosure  | Expected a function closure             |
+
+#### Value / Type Errors (300–316)
+
+| Code | Error            | Description                            |
+| ---- | ---------------- | -------------------------------------- |
+| 300  | Expected type    | Value type mismatch                    |
+| 301  | Coerce           | Type coercion failed                   |
+| 302  | Rem              | Remainder type error                   |
+| 303  | Mul              | Multiplication type error              |
+| 304  | Div              | Division type error                    |
+| 305  | DivideByZero     | Division by zero                       |
+| 306  | NanFloat         | NaN float in operation                 |
+| 307  | Add              | Addition type error                    |
+| 308  | Sub              | Subtraction type error                 |
+| 309  | Or               | Logical OR type error                  |
+| 310  | And              | Logical AND type error                 |
+| 311  | Gt               | Greater-than comparison type error     |
+| 312  | Ge               | Greater-or-equal comparison type error |
+| 313  | Lt               | Less-than comparison type error        |
+| 314  | Le               | Less-or-equal comparison type error    |
+| 315  | Merge / ReadOnly | Merge type error or read-only path     |
+| 316  | OutOfRange       | Value out of range                     |
+
+#### Operator Errors (650–652)
+
+| Code | Error               | Description                              |
+| ---- | ------------------- | ---------------------------------------- |
+| 650  | ChainedComparison   | Chained comparison operators not allowed |
+| 651  | UnnecessaryCoalesce | Unnecessary `??` coalesce                |
+| 652  | MergeNonObjects     | `\|=` merge on non-object types          |
+
+#### Other Errors
+
+| Code | Error                        | Description                              |
+| ---- | ---------------------------- | ---------------------------------------- |
+| 631  | FallibleExpr in return/abort | Return or abort with fallible expression |
+| 701  | Undefined variable           | Reference to undefined variable          |
+| 801  | DeprecationWarning           | Use of deprecated feature (warning)      |
+| 900  | UnusedCode                   | Unused expression result (warning)       |
 
 ### Error Handling Decision
 
@@ -255,23 +480,48 @@ if .status_code >= 400 && .status_code < 500 {
 del(.tags.debug)
 ```
 
-### Emit Multiple Logs from JSON Array
-
-```coffee
-# In Vector config, use `remap` with array unwrapping
-. = parse_json!(.message)
-# Use Vector's `route` + conditions, or restructure upstream
-```
-
 ### Type Checking and Guards
 
 ```coffee
 if is_string(.value) {
-    .value = upcase!(.value)
+    .value = upcase(.value)
 } else if is_integer(.value) {
     .value = to_string(.value)
 }
 ```
+
+### Iterating Arrays and Objects
+
+VRL has no `for`/`while` loop syntax — use the closure-based iteration functions:
+
+```coffee
+# Iterate over array items (side effects only, returns null)
+for_each(.tags) -> |_index, tag| {
+    log("tag: " + tag, level: "debug")
+}
+
+# Transform array values
+.tags = map_values(.tags) -> |tag| { upcase(tag) }
+
+# Filter array (keep elements where closure returns true)
+.errors = filter(.events) -> |_index, event| {
+    event.level == "error"
+}
+
+# Iterate over object keys and values
+for_each(.labels) -> |key, value| {
+    log(key + "=" + value, level: "debug")
+}
+
+# Remap object keys
+.labels = map_keys(.labels) -> |key| { downcase(key) }
+
+# Remap object values
+.headers = map_values(.headers) -> |value| { downcase(value) }
+```
+
+> `for`, `while`, and `loop` are reserved keywords but **not usable** as loop constructs.
+> All iteration in VRL goes through functions with closures.
 
 ### Enrichment with External Data
 
@@ -284,9 +534,7 @@ row = get_enrichment_table_record!("ips", {"ip": .src_ip})
 
 ## Function Reference
 
-See `vrl-functions.md` in this directory for the comprehensive function reference organized by category (190+ functions across 20 categories).
-
-**Quick category overview:**
+See `vrl-functions.md` in this directory for the comprehensive function reference organized by category (200+ functions across 20+ categories).
 
 | Category    | Key Functions                                                            | Purpose                  |
 | ----------- | ------------------------------------------------------------------------ | ------------------------ |
@@ -322,9 +570,23 @@ assert_eq!(.environment, "production")
 ### Common Debugging Workflow
 
 1. Check compile errors — VRL gives specific error codes (see table above)
+1. Use the standalone `vrl` CLI to test expressions interactively
 1. Add `log()` calls to inspect intermediate values
-1. Use `vector vrl` CLI to test expressions interactively
+1. Use `vector vrl` or the standalone `vrl` REPL to iterate
 1. Use `vector tap` to inspect events flowing through pipeline
+
+### Validating Scripts with the CLI
+
+```bash
+# Quick validation — compilation errors are printed with source context
+vrl --program transform.vrl
+
+# Test with sample data
+echo '{"message":"test log line"}' | vrl --program transform.vrl --input /dev/stdin
+
+# Test with a file of sample events
+vrl --program transform.vrl --input sample_events.jsonl --print-object
+```
 
 ## Quick Reference Card
 
@@ -341,6 +603,10 @@ Merge:      . |= object
 Type check: is_string(.x)   is_integer(.x)
 Coerce:     to_string!(.x)  to_int!(.x)
 Log:        log("debug msg", level: "debug")
+
+CLI:        vrl --program script.vrl --input data.jsonl
+REPL:       vrl
+Validate:   vrl --program script.vrl
 ```
 
 ## Common Mistakes
@@ -383,10 +649,10 @@ VRL has no `string[7:]` or bracket-based string slicing. Use `slice()`:
 
 ### ❌ Error 100 vs 103 confusion
 
-- **Error 100**: Unhandled root runtime error — the **root expression** of the program is fallible
 - **Error 103**: Unhandled fallible assignment — a **specific assignment** uses a fallible function without handling
+- **Error 630**: Fallible expression used as argument to another function
 
-Both are fixed the same way (`!`, `??`, or `, err =`) but 103 points to a specific line, while 100 means the whole program's root can error.
+Both are fixed the same way (`!`, `??`, or `, err =`) but 103 points to a specific line.
 
 ### ❌ `parse_key_value` vs `parse_logfmt`
 
@@ -411,11 +677,48 @@ These are **separate functions** — `parse_logfmt` follows the strict logfmt sp
 . = parse_json!(.message)
 ```
 
+## WebAssembly Support
+
+VRL can be compiled for the `wasm32-unknown-unknown` target:
+
+```sh
+cargo check --target wasm32-unknown-unknown --no-default-features --features stdlib
+```
+
+Most stdlib functions work in WASM. The following functions **compile but abort at runtime** due to I/O, system calls, or native dependencies:
+
+- `dns_lookup`
+- `get_hostname`
+- `http_request`
+- `log`
+- `parse_grok` / `parse_groks`
+- `reverse_dns`
+- `validate_json_schema`
+
+The `datadog_grok` feature is **excluded entirely** when targeting `wasm32`.
+
+## Feature Flags
+
+The VRL crate uses Cargo feature flags to control which function groups are available. Relevant flags:
+
+| Feature                    | Functions enabled                                           |
+| -------------------------- | ----------------------------------------------------------- |
+| `enable_env_functions`     | `get_env_var`                                               |
+| `enable_system_functions`  | `get_hostname`, `get_timezone_name`, `now`                  |
+| `enable_network_functions` | `dns_lookup`, `reverse_dns`, `http_request`, `community_id` |
+| `enable_crypto_functions`  | `encrypt`, `decrypt`, `encrypt_ip`, `decrypt_ip`            |
+
+The default feature set enables all four groups. When embedding VRL in restricted environments (e.g. WASM, sandboxed pipelines), disable these features explicitly.
+
 ## External References
 
 - [VRL Overview](https://vector.dev/docs/reference/vrl/)
 - [VRL Functions](https://vector.dev/docs/reference/vrl/functions/)
-- [VRL Errors](https://vector.dev/docs/reference/vrl/errors/)
+- [VRL Errors](https://vector.dev/docs/reference/vrl/errors/) — also at `https://errors.vrl.dev/<code>`
 - [VRL Examples](https://vector.dev/docs/reference/vrl/examples/)
 - [VRL Expressions](https://vector.dev/docs/reference/vrl/expressions/)
 - [Vector VRL CLI](https://vector.dev/docs/reference/cli/#vrl)
+- [VRL GitHub Repository](https://github.com/vectordotdev/vrl)
+- [VRL Crate on crates.io](https://crates.io/crates/vrl)
+
+See `vrl-install.md` in this directory for local installation instructions (cargo install, build from source, feature flags).
