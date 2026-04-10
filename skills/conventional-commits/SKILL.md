@@ -3,7 +3,7 @@ name: conventional-commits
 description: Guidelines for writing conventional commit messages that follow project standards and trigger automated releases
 metadata:
   author: d.horkhover
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Conventional Commits Skill
@@ -61,6 +61,24 @@ This skill provides comprehensive guidance on writing conventional commit messag
 - **Confused about what triggers releases?** → Read `release-triggers.md`
 - **Want to see good and bad examples?** → Read `examples.md`
 
+## Signed-off-by Footer (MANDATORY)
+
+Every commit **must** include a `Signed-off-by` footer. Generate the correct value by running:
+
+```bash
+echo -n "Signed-off-by: $(git config user.name) <$(git config user.email)>"
+```
+
+Append the output as the last footer line of the commit message:
+
+```
+feat: add user authentication
+
+Signed-off-by: Jane Doe <jane@example.com>
+```
+
+**Never hard-code a name/email** — always run the command to pick up the current git identity.
+
 ## Quick Validation Checklist
 
 Before committing, verify:
@@ -71,6 +89,7 @@ Before committing, verify:
 - ✅ Under 100 characters
 - ✅ Imperative mood (add, fix, update)
 - ✅ Accurately describes the "why" not just the "what"
+- ✅ `Signed-off-by` footer present (generated via `git config`)
 
 ## Common Mistakes to Avoid
 
