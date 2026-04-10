@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Personal collection of Claude Code agent skills by DimkaGorhover",
-    "version": "1.5.2"
+    "version": "1.5.3"
   },
   "plugins": [
     {
@@ -35,6 +35,7 @@
         "./skills/orchestrating-swarms",
         "./skills/python",
         "./skills/python-lib-rich",
+        "./skills/shellcheck",
         "./skills/terraform-actions",
         "./skills/vector-remap-language"
       ]
