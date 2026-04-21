@@ -45,7 +45,12 @@ repos:
         entry: >-
           uvx
           --with "mdformat-gfm"
+          --with "mdformat-gofmt"
           --with "mdformat-frontmatter"
+          --with "mdformat-shfmt"
+          --with "mdformat-config==0.1.3"
+          --with "mdformat-ruff"
+          --with "mdformat-toc"
           mdformat
         types:
           - "markdown"
