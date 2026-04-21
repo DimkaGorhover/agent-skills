@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Personal collection of Claude Code agent skills by DimkaGorhover",
-    "version": "1.6.1"
+    "version": "1.7.0"
   },
   "plugins": [
     {
@@ -30,6 +30,7 @@
         "./skills/gitlab-ci-predefined-vars",
         "./skills/gitlab-ci-rules",
         "./skills/golang-urfave-v2-to-v3",
+        "./skills/grafana-foundation-sdk",
         "./skills/helm-chart-structuring",
         "./skills/helm-chart-unittest",
         "./skills/markdown-to-pdf",
