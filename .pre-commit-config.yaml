@@ -51,6 +51,7 @@ repos:
           --with "mdformat-config==0.1.3"
           --with "mdformat-ruff"
           --with "mdformat-toc"
+          --with "mdformat-web"
           mdformat
         types:
           - "markdown"
