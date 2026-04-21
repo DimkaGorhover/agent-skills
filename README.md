@@ -112,6 +112,47 @@ npx skills update
 | [terraform-actions](skills/terraform-actions/)                   | Use when writing Terraform 1.14+ action block and action_trigger workflows for day-2 operations, including after_create/after_update and -invoke execution.                                                   |
 | [vector-remap-language](skills/vector-remap-language/)           | Use when writing, debugging, or reviewing VRL scripts for data transformation in Vector pipelines.                                                                                                            |
 
+## Recommended Skills from Other Repositories
+
+High-quality third-party skill collections worth installing alongside this one.
+
+### Token Efficiency
+
+| Repository                                                        | Stars | Install                                 | Description                                                                                                                                                                                                                                                     |
+| ----------------------------------------------------------------- | ----- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman) | 41k+  | `claude plugin install caveman@caveman` | Cuts ~65–75% of output tokens by making the agent respond in caveman-speak — same technical accuracy, dramatically less verbosity. Includes `caveman-commit`, `caveman-review`, and a `caveman-compress` tool that reduces input tokens in `CLAUDE.md` by ~46%. |
+
+### Go
+
+| Repository                                                                        | Stars | Install                                                            | Description                                                                                                                                                                                                                                           |
+| --------------------------------------------------------------------------------- | ----- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [samber/cc-skills-golang](https://github.com/samber/cc-skills-golang)             | 1.3k+ | `bunx skills add https://github.com/samber/cc-skills-golang --all` | 30+ atomic Go skills covering code style, testing, error handling, concurrency, security, observability, and popular libraries (samber/lo, samber/mo, stretchr/testify). +44pp error rate improvement over baseline.                                  |
+| [madflojo/go-style-agent-skill](https://github.com/madflojo/go-style-agent-skill) | 29+   | `gh skill install madflojo/go-style-agent-skill`                   | Opinionated Go engineering guide for package design, Config-driven constructors, boundary-driven interfaces, sentinel error contracts, and idiomatic godoc. Includes deep reference docs on benchmarks, concurrency, testing, and a review checklist. |
+
+### Security & Reverse Engineering
+
+| Repository                                                                                                              | Stars | Install                                                                               | Description                                                                                                                                                                                                                                                     |
+| ----------------------------------------------------------------------------------------------------------------------- | ----- | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [SimoneAvogadro/android-reverse-engineering-skill](https://github.com/SimoneAvogadro/android-reverse-engineering-skill) | 4.3k+ | `claude plugin install android-reverse-engineering@android-reverse-engineering-skill` | Decompiles APK/XAPK/JAR/AAR files and extracts HTTP APIs — Retrofit endpoints, OkHttp calls, hardcoded URLs, auth patterns. Uses jadx, Fernflower/Vineflower. Includes `/decompile` slash command and shell scripts for dependency checking and API extraction. |
+
+### Dev Workflow & Content
+
+| Repository                                              | Stars | Install                                                     | Description                                                                                                                                                                                                                                                                       |
+| ------------------------------------------------------- | ----- | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [samber/cc-skills](https://github.com/samber/cc-skills) | 70+   | `bunx skills add https://github.com/samber/cc-skills --all` | Marketing and engineering skills: `conventional-git`, `promql-cli`, `linkedin-ghostwriting`, `substack-ghostwriting`, `technical-article-writer`, `press-release-writer`, `snyk-agent-scan-compliance`, `deep-research`, `training-report`. +41pp overall error rate improvement. |
+
+### GitLab Ecosystem
+
+| Repository                                                      | Skills   | Install                                                                                                        | Description                                                                                                                                                                                                                                                                    |
+| --------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [gitlab-org/ai/skills](https://gitlab.com/gitlab-org/ai/skills) | 8 skills | `bunx @dgruzd/skills add https://gitlab.com/gitlab-org/ai/skills/-/tree/main/skills --global --agent opencode` | Official GitLab AI skills: `glab` CLI automation, `commit-messages`, `gitlab-psql` / `gitlab-clickhouse` GDK inspection, `opencode-refine` for iterative prompt tuning, `playwright-cli`, `run-in-tmux-pane`, and `self-service-performance-testing` with k6 and sitespeed.io. |
+
+### Reference Lists
+
+| Repository                                                    | Stars | Description                                                                                                                                                                                          |
+| ------------------------------------------------------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [samber/awesome-olap](https://github.com/samber/awesome-olap) | 116+  | Curated reference list of 100+ OLAP databases, data lake tools, columnar engines, brokers, ETL frameworks, and BI tools across 20+ categories. Not a skills package — a bookmark for data engineers. |
+
 ## Supported Agents
 
 Skills install to any agent supported by the `skills` CLI — including Claude Code, OpenCode, Cursor, Codex, GitHub Copilot, and [40+ others](https://github.com/vercel-labs/skills#supported-agents).
