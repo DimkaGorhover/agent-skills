@@ -17,7 +17,7 @@ metadata:
 by a regular expression or a `<resource>/<name>` selector. New pods matching the query are picked up
 automatically; deleted pods are dropped. Each pod/container is color-coded for quick visual scanning.
 
-For installation see [installation.md](installation.md). For in-cluster use, RBAC setup is required — see [installation.md](installation.md#rbac-running-inside-kubernetes-pods).
+For installation see [references/installation.md](references/installation.md). For in-cluster use, RBAC setup is required — see [references/installation.md](references/installation.md#rbac-running-inside-kubernetes-pods).
 
 > **`--no-follow` concurrency note:** Without `--follow`, stern defaults to max 5 concurrent log streams. Use `--max-log-requests` to raise it or set `--no-follow` together with `--since` to bound the output.
 
