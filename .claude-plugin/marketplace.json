@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Personal collection of Claude Code agent skills by DimkaGorhover",
-    "version": "1.8.0"
+    "version": "2.0.0"
   },
   "plugins": [
     {
@@ -19,7 +19,9 @@
         "./skills/ansible-plugins-cache",
         "./skills/backstage-app-upgrade",
         "./skills/changelog-generator",
+        "./skills/cli-aws-ce",
         "./skills/cli-crane",
+        "./skills/cli-stern",
         "./skills/cli-opendataloader-pdf",
         "./skills/cli-taskfile",
         "./skills/clickhouse-chproxy-users",
