@@ -6,7 +6,7 @@ description: >
   excluding noisy sidecars; formatting JSON logs; or piping structured output to jq.
 metadata:
   author: d.horkhover
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # stern
@@ -55,7 +55,7 @@ For installation see [installation.md](installation.md). For in-cluster use, RBA
 | `stern . -o json`        | Output as JSON (pipe to jq)           |
 | `stern . -o raw`         | Raw log lines only                    |
 
-## Config File
+## Recipes
 
 ### Tail all pods across all namespaces
 
@@ -135,6 +135,7 @@ docker run --rm \
 ## Config File
 
 Default path: `~/.config/stern/config.yaml` (override with `--config` or `STERNCONFIG` env var).
+Use to set persistent defaults so you don't repeat flags on every invocation.
 
 ```yaml
 # Set persistent defaults
@@ -164,34 +165,14 @@ Key template functions: `parseJSON`, `tryParseJSON`, `prettyJSON`, `extractJSONP
 `tryExtractJSONParts`, `toRFC3339Nano`, `toTimestamp`, `levelColor`, `bunyanLevelColor`,
 `color`, `json`. Run `stern --help` for the full list.
 
-## Shell Completion
-
-```sh
-# zsh
-source <(stern --completion=zsh)
-
-# bash
-source <(stern --completion=bash)
-
-# fish
-stern --completion=fish | source
-```
-
-If installed via Krew:
-
-```sh
-source <(kubectl stern --completion bash)
-complete -o default -F __start_stern kubectl stern
-```
-
 ## Common Mistakes
 
-| Mistake                                          | Fix                                                                                  |
-| ------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| Too many concurrent streams crash cluster        | Set `--max-log-requests 20` or lower                                                 |
-| `--no-follow` returns immediately with no output | Add `--since 1h` — default window is 48h but no-follow default concurrency is only 5 |
-| Regex matches too broadly                        | Use `^myapp-` anchors; test with `stern --no-follow --tail 0` first                  |
-| Missing container logs in multi-container pods   | Default `--container .*` matches all; use `-c specific-name` to narrow               |
-| Timestamps in wrong timezone                     | Set `--timezone` or configure it in `~/.config/stern/config.yaml`                    |
-| `--only-log-lines` loses pod context             | Only use when piping to tools that don't need origin metadata                        |
-| `stern` and `kubectl stern` behave differently   | Krew installs as a `kubectl` plugin; completions need separate setup (see above)     |
+| Mistake                                          | Fix                                                                                                      |
+| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| Too many concurrent streams crash cluster        | Set `--max-log-requests 20` or lower                                                                     |
+| `--no-follow` returns immediately with no output | Add `--since 1h` — default window is 48h but no-follow default concurrency is only 5                     |
+| Regex matches too broadly                        | Use `^myapp-` anchors; test with `stern --no-follow --tail 0` first                                      |
+| Missing container logs in multi-container pods   | Default `--container .*` matches all; use `-c specific-name` to narrow                                   |
+| Timestamps in wrong timezone                     | Set `--timezone` or configure it in `~/.config/stern/config.yaml`                                        |
+| `--only-log-lines` loses pod context             | Only use when piping to tools that don't need origin metadata                                            |
+| `stern` and `kubectl stern` behave differently   | Krew installs as a `kubectl` plugin; see [shell-completion.md](references/shell-completion.md) for setup |
