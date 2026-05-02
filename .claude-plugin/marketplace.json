@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Personal collection of Claude Code agent skills by DimkaGorhover",
-    "version": "2.0.0"
+    "version": "2.1.0"
   },
   "plugins": [
     {
@@ -37,6 +37,7 @@
         "./skills/helm-chart-structuring",
         "./skills/helm-chart-unittest",
         "./skills/markdown-to-pdf",
+        "./skills/opencode-custom-tools",
         "./skills/orchestrating-swarms",
         "./skills/python",
         "./skills/python-lib-rich",
