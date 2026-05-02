@@ -6,7 +6,7 @@ description: >
   excluding noisy sidecars; formatting JSON logs; or piping structured output to jq.
 metadata:
   author: d.horkhover
-  version: 1.1.0
+  version: 1.1.1
 ---
 
 # stern
@@ -126,9 +126,9 @@ stern -p # prompts for app.kubernetes.io/instance value
 
 ```sh
 docker run --rm \
-	-v "$HOME/.minikube:$HOME/.minikube" \
-	-v "$HOME/.kube:/$HOME/.kube" \
-	-e KUBECONFIG="$HOME/.kube/config" \
+	-v "${HOME}/.minikube:${HOME}/.minikube:ro" \
+	-v "${HOME}/.kube:/${HOME}/.kube:ro" \
+	-e KUBECONFIG="${HOME}/.kube/config" \
 	ghcr.io/stern/stern deployment/nginx
 ```
 
