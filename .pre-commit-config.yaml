@@ -1,64 +1,72 @@
 # yaml-language-server: $schema=https://www.schemastore.org/pre-commit-config.json
 repos:
-  - repo: "https://github.com/pre-commit/pre-commit-hooks"
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: "v6.0.0"
     hooks:
-      - id: "check-added-large-files"
-        name: "Check Added Large Files"
-      - id: "check-symlinks"
-        name: "Check Symlinks"
-      - id: "trailing-whitespace"
-        name: "Trailing Whitespace Fixer"
-      - id: "end-of-file-fixer"
-        name: "End of File Fixer"
-      - id: "check-json"
-        name: "Check JSON"
-      - id: "check-yaml"
-        name: "Check YAML"
+      - id: forbid-submodules
+      - id: trailing-whitespace
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: mixed-line-ending
+        args:
+          - --fix=lf # Enforce Linux/macOS style (LF)
+      - id: end-of-file-fixer
+      - id: check-json
+      - id: check-symlinks
+      - id: detect-private-key
+      - id: check-merge-conflict
+      - id: sort-simple-yaml
+      - id: check-yaml
+        args:
+          - --unsafe
+      - id: detect-aws-credentials
+        args:
+          - --allow-missing-credentials
 
-  - repo: "https://github.com/gitleaks/gitleaks"
-    rev: "v8.30.0"
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: "v8.30.1"
     hooks:
       - id: gitleaks
-        name: "Gitleaks"
+        name: Gitleaks
         args:
-          - "--verbose"
-          - "--redact"
-          - "--no-banner"
-          - "--max-target-megabytes=10"
+          - --verbose
+          - --redact
+          - --no-banner
+          - --max-target-megabytes=10
         stages:
-          - "pre-commit"
+          - pre-commit
 
-  - repo: "https://github.com/adrienverge/yamllint"
+  - repo: https://github.com/adrienverge/yamllint
     rev: "v1.38.0"
     hooks:
-      - id: "yamllint"
-        name: "YAML Lint"
+      - id: yamllint
         stages:
-          - "pre-commit"
+          - pre-commit
 
-  - repo: "local"
+  - repo: local
     hooks:
-      - id: "mdformat"
-        name: "Format Markdown"
-        language: "system"
+      - id: mdformat
+        name: Format Markdown
+        language: system
         entry: >-
           uvx
           --with "mdformat-gfm"
-          --with "mdformat-gofmt"
           --with "mdformat-frontmatter"
           --with "mdformat-shfmt"
           --with "mdformat-config==0.1.3"
           --with "mdformat-ruff"
           --with "mdformat-toc"
-          --with "mdformat-web"
           mdformat
         types:
-          - "markdown"
-      - id: "agentskills-validate"
-        name: "Validate Skill"
-        language: "script"
+          - markdown
+
+  - repo: local
+    hooks:
+      - id: agentskills-validate
+        name: Validate Skill
+        language: script
         entry: ".hooks/validate-skills.py"
-        files: "^skills/"
+        files: >-
+          ^skills/
         stages:
-          - "pre-commit"
+          - pre-commit

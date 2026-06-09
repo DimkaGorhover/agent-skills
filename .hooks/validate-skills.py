@@ -5,6 +5,8 @@
 # ///
 """Pre-commit hook: validate changed skills with agentskills CLI."""
 
+import platform
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -23,7 +25,20 @@ def _unique_skill_dirs(files: list[str]) -> list[str]:
     return dirs
 
 
+def _check_uvx() -> None:
+    """Fail fast if uvx is not available on PATH."""
+    result = subprocess.run(["uvx", "--version"], capture_output=True, check=False)
+    if result.returncode != 0:
+        if shutil.which("brew") and platform.system() == "Darwin":
+            install_cmd = "brew install uv"
+        else:
+            install_cmd = "curl -LsSf https://astral.sh/uv/install.sh | sh"
+        print(f"uvx not found. Install uv: {install_cmd}", file=sys.stderr)
+        sys.exit(1)
+
+
 def main() -> None:
+    _check_uvx()
     dirs = _unique_skill_dirs(sys.argv[1:])
     if not dirs:
         sys.exit(0)
