@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Personal collection of Claude Code agent skills by DimkaGorhover",
-    "version": "2.1.1"
+    "version": "2.3.0"
   },
   "plugins": [
     {
@@ -32,6 +32,7 @@
         "./skills/gitlab-ci-gitleaks",
         "./skills/gitlab-ci-predefined-vars",
         "./skills/gitlab-ci-rules",
+        "./skills/golang-gocognit",
         "./skills/golang-urfave-v2-to-v3",
         "./skills/grafana-foundation-sdk",
         "./skills/helm-chart-structuring",
@@ -41,6 +42,7 @@
         "./skills/orchestrating-swarms",
         "./skills/python",
         "./skills/python-lib-rich",
+        "./skills/security-audit",
         "./skills/shellcheck",
         "./skills/terraform-actions",
         "./skills/vector-remap-language"
