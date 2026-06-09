@@ -902,7 +902,9 @@ Or in `.vscode/settings.json`:
 ```json
 {
   "yaml.schemas": {
-    "https://taskfile.dev/schema.json": ["**/Taskfile.yml"]
+    "https://taskfile.dev/schema.json": [
+      "**/Taskfile.yml"
+    ]
   }
 }
 ```

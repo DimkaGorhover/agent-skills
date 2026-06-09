@@ -144,7 +144,7 @@ Build backend configuration. Use `uv_build` for most projects:
 
 ```toml
 [build-system]
-requires = ["uv_build>=0.9,<1"]  # Use latest 0.x; check https://pypi.org/project/uv-build/
+requires = [ "uv_build>=0.9,<1",] # Use latest 0.x; check https://pypi.org/project/uv-build/
 build-backend = "uv_build"
 ```
 
@@ -165,11 +165,19 @@ Development dependencies (PEP 735). Unlike optional-dependencies, these are NOT 
 
 ```toml
 [dependency-groups]
-dev = [{include-group = "lint"}, {include-group = "test"}, {include-group = "audit"}]
-lint = ["ruff", "ty"]
-test = ["pytest", "pytest-cov"]
-audit = ["pip-audit"]
-docs = ["sphinx", "myst-parser"]
+lint = [ "ruff", "ty",]
+test = [ "pytest", "pytest-cov",]
+audit = [ "pip-audit",]
+docs = [ "sphinx", "myst-parser",]
+[[dependency-groups.dev]]
+include-group = "lint"
+
+[[dependency-groups.dev]]
+include-group = "test"
+
+[[dependency-groups.dev]]
+include-group = "audit"
+
 ```
 
 Install with: `uv sync --group dev --group test`
@@ -224,31 +232,24 @@ test = ["pytest", "pytest-cov"]
 
 ```toml
 [project]
-dependencies = [
-    "fastapi",
-    "uvicorn",
-    "sqlalchemy",
-]
+dependencies = [ "fastapi", "uvicorn", "sqlalchemy",]
+
+[dependency-groups]
+dev = [ "ruff", "ty", "pytest",]
 
 [project.scripts]
 myapp = "myapp.main:run"
-
-[dependency-groups]
-dev = ["ruff", "ty", "pytest"]
 ```
 
 ### CLI Tool
 
 ```toml
 [project]
-dependencies = [
-    "typer",
-    "rich",
-]
+dependencies = [ "typer", "rich",]
+
+[dependency-groups]
+dev = [ "ruff", "ty", "pytest",]
 
 [project.scripts]
 mytool = "mytool.cli:app"
-
-[dependency-groups]
-dev = ["ruff", "ty", "pytest"]
 ```

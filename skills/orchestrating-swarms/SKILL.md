@@ -571,7 +571,12 @@ Teammate({
 When you receive a `shutdown_request` message:
 
 ```json
-{"type": "shutdown_request", "requestId": "shutdown-123", "from": "team-lead", "reason": "Done"}
+{
+  "type": "shutdown_request",
+  "requestId": "shutdown-123",
+  "from": "team-lead",
+  "reason": "Done"
+}
 ```
 
 **MUST** call:
@@ -723,7 +728,9 @@ TaskUpdate({ taskId: "4", addBlockedBy: ["3"] })   // #4 waits for #3
   "owner": "security-reviewer",
   "activeForm": "Reviewing auth module...",
   "blockedBy": [],
-  "blocks": ["3"],
+  "blocks": [
+    "3"
+  ],
   "createdAt": 1706000000000,
   "updatedAt": 1706000001000
 }
@@ -831,8 +838,12 @@ ______________________________________________________________________
   "toolName": "Bash",
   "toolUseId": "toolu_abc123",
   "description": "Run npm install",
-  "input": {"command": "npm install"},
-  "permissionSuggestions": ["Bash(npm *)"],
+  "input": {
+    "command": "npm install"
+  },
+  "permissionSuggestions": [
+    "Bash(npm *)"
+  ],
   "createdAt": 1706000000000
 }
 ```

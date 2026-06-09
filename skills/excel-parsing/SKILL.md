@@ -59,8 +59,8 @@ print("Sheets:", xl.sheet_names)
 for sheet in xl.sheet_names:
     df = pd.read_excel(path, sheet_name=sheet, header=None)
     print(f"\n{sheet}: {df.shape}")
-    pd.set_option('display.max_columns', None)
-    pd.set_option('display.max_colwidth', 120)
+    pd.set_option("display.max_columns", None)
+    pd.set_option("display.max_colwidth", 120)
     print(df.head(10).to_string())
 ```
 
@@ -80,16 +80,19 @@ Decide header row placement **after** reading this output — do not assume row 
 
 import pandas as pd
 
+
 def clean(val):
     """Convert any cell value to a clean string. Handles NaN and literal \\n."""
     if pd.isna(val):
         return ""
     return str(val).replace("\\n", "\n").strip()
 
+
 def collapse(val):
     """Flatten multiline cell content to a single line (safe for table cells)."""
     text = clean(val)
     return "; ".join(part.strip() for part in text.split("\n") if part.strip()) or "—"
+
 
 path = "MyFile.xlsx"
 
@@ -101,16 +104,18 @@ df = pd.read_excel(path, sheet_name="SheetName", header=None)
 # Carry the last seen value forward:
 current_group = None
 rows = []
-for i in range(2, len(df)):   # start after header rows
+for i in range(2, len(df)):  # start after header rows
     row = df.iloc[i]
     group_label = clean(row[0])
     if group_label:
         current_group = group_label
-    rows.append({
-        "group":  current_group,
-        "col_a":  clean(row[1]),
-        "col_b":  clean(row[2]),
-    })
+    rows.append(
+        {
+            "group": current_group,
+            "col_a": clean(row[1]),
+            "col_b": clean(row[2]),
+        }
+    )
 
 # ── Writing output ───────────────────────────────────────────────────────────
 lines = ["# Report\n"]

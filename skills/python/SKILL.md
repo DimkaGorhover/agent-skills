@@ -302,9 +302,9 @@ See [uv-commands.md](./references/uv-commands.md) for complete reference.
 
 ```toml
 [dependency-groups]
-dev = ["ruff", "ty"]
-test = ["pytest", "pytest-cov", "hypothesis"]
-docs = ["sphinx", "myst-parser"]
+dev = [ "ruff", "ty",]
+test = [ "pytest", "pytest-cov", "hypothesis",]
+docs = [ "sphinx", "myst-parser",]
 ```
 
 Install with: `uv sync --group dev --group test`

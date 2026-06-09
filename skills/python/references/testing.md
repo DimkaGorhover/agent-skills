@@ -14,41 +14,19 @@ uv add --group test pytest pytest-cov hypothesis
 
 ```toml
 [tool.pytest]
-testpaths = ["tests"]
-pythonpath = ["src"]
-addopts = [
-    "-ra",                      # Show summary of all test outcomes
-    "--strict-markers",         # Error on unknown markers
-    "--strict-config",          # Error on config issues
-    "--cov=myproject",          # Coverage for package
-    "--cov-report=term-missing", # Show missing lines
-    "--cov-fail-under=80",      # Minimum coverage
-]
-markers = [
-    "slow: marks tests as slow",
-    "integration: marks integration tests",
-]
-filterwarnings = [
-    "error",                    # Treat warnings as errors
-    "ignore::DeprecationWarning:third_party.*",
-]
+testpaths = [ "tests",]
+pythonpath = [ "src",]
+addopts = [ "-ra", "--strict-markers", "--strict-config", "--cov=myproject", "--cov-report=term-missing", "--cov-fail-under=80",]
+markers = [ "slow: marks tests as slow", "integration: marks integration tests",]
+filterwarnings = [ "error", "ignore::DeprecationWarning:third_party.*",]
 
 [tool.coverage.run]
 branch = true
-source = ["src/myproject"]
-omit = [
-    "*/__main__.py",
-    "*/conftest.py",
-]
+source = [ "src/myproject",]
+omit = [ "*/__main__.py", "*/conftest.py",]
 
 [tool.coverage.report]
-exclude_lines = [
-    "pragma: no cover",
-    "if TYPE_CHECKING:",
-    "if __name__ == .__main__.:",
-    "raise NotImplementedError",
-    "@abstractmethod",
-]
+exclude_lines = [ "pragma: no cover", "if TYPE_CHECKING:", "if __name__ == .__main__.:", "raise NotImplementedError", "@abstractmethod",]
 fail_under = 80
 show_missing = true
 ```
@@ -121,8 +99,10 @@ uv run coverage html
 # tests/test_core.py
 from myproject.core import add_numbers
 
+
 def test_add_numbers():
     assert add_numbers(2, 3) == 5
+
 
 def test_add_negative():
     assert add_numbers(-1, 1) == 0
@@ -135,6 +115,7 @@ def test_add_negative():
 import pytest
 from myproject.db import Database
 
+
 @pytest.fixture
 def db():
     """Provide a test database."""
@@ -142,6 +123,7 @@ def db():
     database.init()
     yield database
     database.close()
+
 
 @pytest.fixture
 def sample_data(db):
@@ -162,11 +144,15 @@ def test_query(sample_data):
 ```python
 import pytest
 
-@pytest.mark.parametrize("input,expected", [
-    ("hello", 5),
-    ("", 0),
-    ("test", 4),
-])
+
+@pytest.mark.parametrize(
+    "input,expected",
+    [
+        ("hello", 5),
+        ("", 0),
+        ("test", 4),
+    ],
+)
 def test_string_length(input, expected):
     assert len(input) == expected
 ```
@@ -177,9 +163,11 @@ def test_string_length(input, expected):
 import pytest
 from myproject.core import divide
 
+
 def test_divide_by_zero():
     with pytest.raises(ZeroDivisionError):
         divide(1, 0)
+
 
 def test_divide_by_zero_message():
     with pytest.raises(ZeroDivisionError, match="division by zero"):
@@ -194,6 +182,7 @@ uv add --group test pytest-asyncio
 
 ```python
 import pytest
+
 
 @pytest.mark.asyncio
 async def test_async_function():
@@ -211,9 +200,11 @@ uv add --group test hypothesis
 from hypothesis import given, strategies as st
 from myproject.core import reverse_string
 
+
 @given(st.text())
 def test_reverse_is_reversible(s):
     assert reverse_string(reverse_string(s)) == s
+
 
 @given(st.integers(), st.integers())
 def test_add_commutative(a, b):
@@ -227,17 +218,21 @@ import sys
 
 import pytest
 
+
 @pytest.mark.slow
 def test_slow_operation():
     pass
+
 
 @pytest.mark.integration
 def test_api_call():
     pass
 
+
 @pytest.mark.skip(reason="Not implemented yet")
 def test_future_feature():
     pass
+
 
 @pytest.mark.skipif(sys.platform == "win32", reason="Unix only")
 def test_unix_feature():

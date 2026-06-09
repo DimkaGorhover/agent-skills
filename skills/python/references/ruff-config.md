@@ -10,15 +10,11 @@ Add to `pyproject.toml`:
 [tool.ruff]
 line-length = 100
 target-version = "py311"
-src = ["src"]
+src = [ "src",]
 
 [tool.ruff.lint]
-select = ["ALL"]
-ignore = [
-    "D",        # pydocstyle
-    "COM812",   # trailing comma (formatter conflict)
-    "ISC001",   # string concat (formatter conflict)
-]
+select = [ "ALL",]
+ignore = [ "D", "COM812", "ISC001",]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -74,22 +70,13 @@ Using `select = ["ALL"]` enables all rules. Common categories:
 ### Always Ignore (Formatter Conflicts)
 
 ```toml
-ignore = [
-    "COM812",   # missing-trailing-comma
-    "ISC001",   # single-line-implicit-string-concatenation
-]
+ignore = [ "COM812", "ISC001",]
 ```
 
 ### Common Ignores
 
 ```toml
-ignore = [
-    "D",        # Docstrings (enable selectively)
-    "ANN401",   # Dynamically typed Any
-    "TD002",    # Missing TODO author
-    "TD003",    # Missing TODO link
-    "FIX002",   # Line contains TODO
-]
+ignore = [ "D", "ANN401", "TD002", "TD003", "FIX002",]
 ```
 
 ## Per-File Ignores
@@ -126,15 +113,9 @@ ignore = [
 ```toml
 [tool.ruff.lint.isort]
 force-single-line = false
-known-first-party = ["myproject"]
-required-imports = ["from __future__ import annotations"]
-section-order = [
-    "future",
-    "standard-library",
-    "third-party",
-    "first-party",
-    "local-folder",
-]
+known-first-party = [ "myproject",]
+required-imports = [ "from __future__ import annotations",]
+section-order = [ "future", "standard-library", "third-party", "first-party", "local-folder",]
 ```
 
 ## Docstring Style (pydocstyle)
@@ -143,26 +124,21 @@ If enabling docstring checks:
 
 ```toml
 [tool.ruff.lint]
-select = ["D"]
-ignore = [
-    "D100",     # Missing module docstring
-    "D104",     # Missing public package docstring
-    "D203",     # 1 blank line before class docstring (conflicts D211)
-    "D213",     # Multi-line summary second line (conflicts D212)
-]
+select = [ "D",]
+ignore = [ "D100", "D104", "D203", "D213",]
 
 [tool.ruff.lint.pydocstyle]
-convention = "google"  # or "numpy", "pep257"
+convention = "google"
 ```
 
 ## Formatter Configuration
 
 ```toml
 [tool.ruff.format]
-quote-style = "double"           # or "single"
-indent-style = "space"           # or "tab"
+quote-style = "double" # or "single"
+indent-style = "space" # or "tab"
 skip-magic-trailing-comma = false
-line-ending = "auto"             # or "lf", "crlf"
+line-ending = "auto" # or "lf", "crlf"
 docstring-code-format = true
 docstring-code-line-length = 80
 ```
@@ -240,5 +216,5 @@ If migrating from 120 to 100 char lines, expect manual fixes.
 For less churn during initial migration, keep existing:
 
 ```toml
-line-length = 120  # Match existing; tighten later
+line-length = 120 # Match existing; tighten later
 ```

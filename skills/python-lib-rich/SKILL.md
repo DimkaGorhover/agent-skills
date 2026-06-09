@@ -55,8 +55,12 @@ Rich is a Python library for rich text and beautiful formatting in the terminal.
 Rich uses bbcode-like tags for inline styling:
 
 ```python
-console.print("[bold]Bold[/bold], [italic]italic[/italic], [underline]underline[/underline]")
-console.print("[red]Red[/red], [bold cyan]Bold cyan[/bold cyan], [on white]White bg[/on white]")
+console.print(
+    "[bold]Bold[/bold], [italic]italic[/italic], [underline]underline[/underline]"
+)
+console.print(
+    "[red]Red[/red], [bold cyan]Bold cyan[/bold cyan], [on white]White bg[/on white]"
+)
 console.print("[link=https://example.com]Clickable[/link]")
 console.print("[bold red on white]Combined styles[/bold red on white]")
 # Escape markup: console.print("\[not bold]")
@@ -147,7 +151,9 @@ console.print(Columns(items, equal=True))
 import logging
 from rich.logging import RichHandler
 
-logging.basicConfig(level="INFO", format="%(message)s", datefmt="[%X]", handlers=[RichHandler()])
+logging.basicConfig(
+    level="INFO", format="%(message)s", datefmt="[%X]", handlers=[RichHandler()]
+)
 log = logging.getLogger("myapp")
 log.info("Server started", extra={"markup": True})
 ```
@@ -170,6 +176,7 @@ Install once at program start — all uncaught exceptions render beautifully:
 
 ```python
 from rich.traceback import install
+
 install(show_locals=True)
 ```
 

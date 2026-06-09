@@ -211,9 +211,11 @@ from rich import print
 
 app = typer.Typer()
 
+
 @app.command()
 def greet(name: str):
     print(f"[green]Hello, {name}![/green]")
+
 
 if __name__ == "__main__":
     app()
@@ -231,6 +233,7 @@ if __name__ == "__main__":
 import asyncio
 import httpx
 
+
 async def main():
     async with httpx.AsyncClient() as client:
         urls = ["https://api1.example.com", "https://api2.example.com"]
@@ -238,6 +241,7 @@ async def main():
         responses = await asyncio.gather(*tasks)
         for r in responses:
             print(r.status_code)
+
 
 asyncio.run(main())
 ```

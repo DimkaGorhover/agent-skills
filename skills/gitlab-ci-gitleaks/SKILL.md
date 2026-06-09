@@ -214,71 +214,62 @@ Always collect reports even on job failure. Without `when: always`, a failed git
 
 ```toml
 title = "Gitleaks Configuration"
-
-[extend]
-useDefault = true   # inherit all built-in detection rules
-
 [[allowlists]]
 description = "Project-specific safe patterns"
-paths = [
-    '''(^|/)\.terraform\.lock\.hcl$''',
-    '''(^|/)\.terraform/''',
-]
-stopwords = [
-    "REPLACE_ME",
-    "EXAMPLE",
-    "placeholder",
-]
+paths = [ "(^|/)\\.terraform\\.lock\\.hcl$", "(^|/)\\.terraform/",]
+stopwords = [ "REPLACE_ME", "EXAMPLE", "placeholder",]
+
+[extend]
+useDefault = true # inherit all built-in detection rules
 ```
 
 ### Full Schema Reference
 
 ```toml
-title = "Config Title"         # informational
-description = "..."            # informational
-minVersion = "v8.25.0"         # warn if gitleaks version < this
-
+title = "Config Title" # informational
+description = "..." # informational
+minVersion = "v8.25.0" # warn if gitleaks version < this
 # ── EXTEND ──────────────────────────────────────────────────
-[extend]
-useDefault = true              # merge into built-in rules (mutually exclusive with path)
-# path = "base-config.toml"   # merge into another config file
-disabledRules = ["rule-id"]   # rules from extended config to disable
-
-# ── CUSTOM RULES ────────────────────────────────────────────
 [[rules]]
-id = "my-custom-rule"          # REQUIRED, must be unique
+id = "my-custom-rule" # REQUIRED, must be unique
 description = "Human text"
-regex = '''regex-pattern'''    # Go RE2 syntax (no lookaheads)
-path = '''path-regex'''        # match on file path
-secretGroup = 1                # capture group index to treat as the secret
-entropy = 3.5                  # minimum Shannon entropy (0 = disabled)
-keywords = ["token", "key"]   # case-insensitive pre-filter (performance optimization)
-tags = ["custom"]              # metadata for reporting
-
-  # Per-rule allowlist (can have multiple)
-  [[rules.allowlists]]
-  description = "ignore test fixtures"
-  condition = "OR"             # "OR" (default) | "AND"
-  commits = ["abc123"]         # exact commit SHAs to skip
-  paths = ['''tests/''']       # regex matched against file path
-  regexes = ['''(?i)fake''']   # regex matched against regexTarget
-  regexTarget = "secret"       # "secret" (default) | "match" | "line"
-  stopwords = ["example"]      # case-insensitive substring match
-
+regex = "regex-pattern" # Go RE2 syntax (no lookaheads)
+path = "path-regex" # match on file path
+secretGroup = 1 # capture group index to treat as the secret
+entropy = 3.5 # minimum Shannon entropy (0 = disabled)
+keywords = [ "token", "key",] # case-insensitive pre-filter (performance optimization)
+tags = [ "custom",] # metadata for reporting
+# Per-rule allowlist (can have multiple)
+[[rules.allowlists]]
+description = "ignore test fixtures"
+condition = "OR" # "OR" (default) | "AND"
+commits = [ "abc123",] # exact commit SHAs to skip
+paths = [ "tests/",] # regex matched against file path
+regexes = [ "(?i)fake",] # regex matched against regexTarget
+regexTarget = "secret" # "secret" (default) | "match" | "line"
+stopwords = [ "example",] # case-insensitive substring match
 # ── GLOBAL ALLOWLISTS ──────────────────────────────────────
+
+
 [[allowlists]]
 description = "global safe patterns"
 condition = "OR"
-paths = ['''\.md$''', '''vendor/''']
-regexes = ['''219-09-9999''']
-regexTarget = "match"          # "match" | "line" (no "secret" in global context)
-stopwords = ["placeholder"]
-commits = ["deadbeef"]
-
+paths = [ "\\.md$", "vendor/",]
+regexes = [ "219-09-9999",]
+regexTarget = "match" # "match" | "line" (no "secret" in global context)
+stopwords = [ "placeholder",]
+commits = [ "deadbeef",]
 # Target specific rules only (v8.25.0+)
+
 [[allowlists]]
-targetRules = ["rule-a"]       # apply only to these rule IDs
-paths = ['''tests/expected/''']
+targetRules = [ "rule-a",] # apply only to these rule IDs
+paths = [ "tests/expected/",]
+
+[extend]
+useDefault = true # merge into built-in rules (mutually exclusive with path)
+# path = "base-config.toml"   # merge into another config file
+disabledRules = [ "rule-id",] # rules from extended config to disable
+# ── CUSTOM RULES ────────────────────────────────────────────
 ```
 
 ### Rule Validation Constraints
