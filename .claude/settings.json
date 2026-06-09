@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "task pre-commit",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && task pre-commit",
             "statusMessage": "Running pre-commit checks..."
           }
         ]
