@@ -13,29 +13,10 @@ Markdown, YAML, and JSON.
 ### Lint & Format (run before every commit)
 
 ```bash
-# Run all hooks against all files
-uvx pre-commit run --all-files
-
-# Run hooks on specific files only
-uvx pre-commit run --files skills/my-skill/SKILL.md
-
-# Format a single Markdown file
-uvx --with "mdformat-gfm" --with "mdformat-frontmatter" mdformat <file.md>
-
-# Lint YAML files
-uvx yamllint -c .yamllint.yaml <file.yaml>
-
-# Validate a skill directory
-uvx --from skills-ref agentskills validate skills/my-skill
+task pre-commit
 ```
 
 > Pre-commit is invoked via `uvx pre-commit` — never call `pre-commit` directly.
-
-### Install hooks (once per clone)
-
-```bash
-uvx pre-commit install
-```
 
 ### Install skills from this repo
 
