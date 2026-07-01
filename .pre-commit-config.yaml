@@ -70,6 +70,28 @@ repos:
 
   - repo: local
     hooks:
+      - id: ruff-format
+        name: Ruff Format
+        language: system
+        entry: uvx ruff format
+        args:
+          - --line-length=120
+        types:
+          - python
+
+      - id: ruff-check
+        name: Ruff Check
+        language: system
+        entry: uvx ruff check
+        args:
+          - --fix
+          - --select=I,E,W,F,UP,B,SIM,C4,RUF
+          - --line-length=120
+        types:
+          - python
+
+  - repo: local
+    hooks:
       - id: agentskills-validate
         name: Validate Skill
         language: script

@@ -17,7 +17,7 @@ def _unique_skill_dirs(files: list[str]) -> list[str]:
     dirs: list[str] = []
     for f in files:
         parts = Path(f).parts
-        if len(parts) > 2 and parts[0] == "skills":  # noqa: PLR2004
+        if len(parts) > 2 and parts[0] == "skills":
             skill = parts[1]
             if skill not in seen:
                 seen.add(skill)
