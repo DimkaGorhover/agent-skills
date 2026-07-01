@@ -1,9 +1,24 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
-version: '3'
+version: "3"
+
+silent: true
+
+set:
+  - pipefail
+  - errexit
+  - nounset
+
 tasks:
   pre-commit:
     desc: Run pre-commit hooks
     silent: true
+    aliases:
+      - prek
     cmds:
       - |-
-        uvx pre-commit run --all-files
+        _command="prek run --all-files"
+        if ! command -v prek >/dev/null 2>&1; then
+          echo "[warning] Prek is not installed, falling back to uvx"
+          _command="uvx ${_command}"
+        fi
+        exec ${_command}

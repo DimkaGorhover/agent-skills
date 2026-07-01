@@ -1,9 +1,7 @@
 # yaml-language-server: $schema=https://www.schemastore.org/pre-commit-config.json
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: "v6.0.0"
+  - repo: builtin
     hooks:
-      - id: forbid-submodules
       - id: trailing-whitespace
       - id: check-added-large-files
       - id: check-case-conflict
@@ -15,6 +13,16 @@ repos:
       - id: check-symlinks
       - id: detect-private-key
       - id: check-merge-conflict
+      - id: pretty-format-json
+        args:
+          - --autofix
+          - --no-sort-keys
+          - --no-ensure-ascii
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: "v6.0.0"
+    hooks:
+      - id: forbid-submodules
       - id: sort-simple-yaml
       - id: check-yaml
         args:
