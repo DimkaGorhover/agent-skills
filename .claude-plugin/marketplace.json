@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Personal collection of Claude Code agent skills by DimkaGorhover",
-    "version": "4.0.0"
+    "version": "5.0.0"
   },
   "plugins": [
     {
@@ -17,7 +17,6 @@
       "skills": [
         "./skills/ansible-naming-conventions",
         "./skills/ansible-plugins-cache",
-        "./skills/backstage-app-upgrade",
         "./skills/cli-aws-ce",
         "./skills/cli-crane",
         "./skills/cli-stern",
@@ -25,7 +24,6 @@
         "./skills/cli-taskfile",
         "./skills/clickhouse-chproxy-users",
         "./skills/doc-to-markdown",
-        "./skills/dockerfile-fnox",
         "./skills/excel-parsing",
         "./skills/gitlab-ci-gitleaks",
         "./skills/gitlab-ci-predefined-vars",
@@ -36,7 +34,6 @@
         "./skills/grafana-foundation-sdk",
         "./skills/helm-chart-structuring",
         "./skills/helm-chart-unittest",
-        "./skills/markdown-to-pdf",
         "./skills/opencode-custom-tools",
         "./skills/orchestrating-swarms",
         "./skills/python",
