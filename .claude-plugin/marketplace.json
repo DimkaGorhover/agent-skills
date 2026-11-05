@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Personal collection of Claude Code agent skills by DimkaGorhover",
-    "version": "5.0.0"
+    "version": "6.0.0"
   },
   "plugins": [
     {
@@ -21,7 +21,6 @@
         "./skills/cli-crane",
         "./skills/cli-stern",
         "./skills/cli-opendataloader-pdf",
-        "./skills/cli-taskfile",
         "./skills/clickhouse-chproxy-users",
         "./skills/doc-to-markdown",
         "./skills/excel-parsing",
@@ -39,7 +38,6 @@
         "./skills/python",
         "./skills/python-lib-rich",
         "./skills/security-audit",
-        "./skills/shellcheck",
         "./skills/terraform-actions",
         "./skills/vector-remap-language"
       ]
